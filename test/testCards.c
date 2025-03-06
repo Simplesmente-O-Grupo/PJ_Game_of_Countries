@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define TOTAL_CARDS 80
 
@@ -130,6 +131,22 @@ void print_cards_value(Cards *deck)
     }
 }
 
+// Test unsort Array
+void shuffle(Cards *deck, int size)
+{
+    srand(time(NULL)); // Inicializa a semente do gerador de números aleatórios
+
+    for (int i = size - 1; i > 0; i--)
+    {
+        int j = rand() % (i + 1); // Gera um índice aleatório entre 0 e 1
+
+        // Replace deck[i] with deck[j]
+        Cards temp = deck[i];
+        deck[i] = deck[j];
+        deck[j] = temp;
+    }
+}
+
 void free_cards(Cards **deck) // Pass pointer to pointer to set it to NULL
 {
     if (*deck != NULL)
@@ -154,7 +171,13 @@ int main()
     initizalize_cards(deck);
     printf("********************\n");
 
-    printf("Cards Value:\n");
+    /*printf("Cards Value Sorted:\n");
+    print_cards_value(deck);
+    printf("********************\n");*/
+
+    shuffle(deck, TOTAL_CARDS);
+
+    printf("Deck Unsorted: \n");
     print_cards_value(deck);
     printf("********************\n");
 
