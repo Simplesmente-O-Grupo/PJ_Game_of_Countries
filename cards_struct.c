@@ -123,6 +123,21 @@ void print_cards_value(Cards *deck)
     }
 }
 
+void shuffle(Cards *deck, int size)
+{
+    srand(time(NULL)); // Inicializa a semente do gerador de números aleatórios
+
+    for (int i = size - 1; i > 0; i--)
+    {
+        int j = rand() % (i + 1); // Gera um índice aleatório entre 0 e 1
+
+        // Replace deck[i] with deck[j]
+        Cards temp = deck[i];
+        deck[i] = deck[j];
+        deck[j] = temp;
+    }
+}
+
 void free_cards(Cards **deck) // Pass pointer to pointer to set it to NULL
 {
     if (*deck != NULL)

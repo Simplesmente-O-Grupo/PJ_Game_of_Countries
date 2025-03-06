@@ -16,8 +16,8 @@ typedef struct Cards
 
 Cards *allocate_memory_cards();
 void initizalize_cards(Cards *deck);
-void test_fully_deck(Cards *deck);
-void free_cards(Cards *deck);
+void shuffle(Cards *deck, int size);
+void free_cards(Cards **deck);
 // Just test - This function will not implemented int the game
 void print_cards_value(Cards *deck);
 
