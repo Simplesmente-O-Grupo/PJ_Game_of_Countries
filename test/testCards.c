@@ -1,11 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "cards_struct.h"
+
 #define TOTAL_CARDS 80
 
-// FUNCTIONS IMPLEMENTATION
-
-// Function to memory allocation to struct 80 cards
+typedef struct Cards
+{
+    int card_id;            // card identification
+    char card_name[30];     // card name of the country - Increase array size because of country name
+    char card_category[30]; // card category, such as country's Continent
+    int card_defence;       // defence card attribute
+    int card_army;          // army card attribute
+    int card_navy;          // navy card attribute
+    int card_airforce;      // airforce card attribute
+} Cards;
 
 Cards *allocate_memory_cards()
 {
@@ -119,7 +126,7 @@ void print_cards_value(Cards *deck)
                deck[i].card_category, deck[i].card_defence,
                deck[i].card_army, deck[i].card_navy, deck[i].card_airforce);
 
-        printf("*************************************************");
+        printf("*************************************************\n ");
     }
 }
 
@@ -135,4 +142,34 @@ void free_cards(Cards **deck) // Pass pointer to pointer to set it to NULL
     {
         printf("Deck is already freed.\n");
     }
+}
+
+int main()
+{
+    printf("Allocated:\n");
+    Cards *deck = allocate_memory_cards();
+    printf("********************\n");
+
+    printf("Initialized deck:\n ");
+    initizalize_cards(deck);
+    printf("********************\n");
+
+    printf("Cards Value:\n");
+    print_cards_value(deck);
+    printf("********************\n");
+
+    printf("Free Deck:\n");
+    free_cards(&deck);
+
+    // Verify that the deck has been freed
+    if (deck == NULL)
+    {
+        printf("DEck is successfully freed and set to NULL.\n");
+    }
+    else
+    {
+        printf("Deck is not freed.\n");
+    }
+
+    return 0;
 }
