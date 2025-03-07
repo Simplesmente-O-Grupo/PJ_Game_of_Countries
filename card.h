@@ -15,4 +15,6 @@ typedef struct Card {
     int airforce;      // airforce card attribute
 } Card;
 
+Card create_card(int id, char *name, char *category, int defence, int army, int navy, int airforce);
+
 #endif
