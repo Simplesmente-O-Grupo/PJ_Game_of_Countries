@@ -159,6 +159,8 @@ void free_cards(Cards **deck) // Pass pointer to pointer to set it to NULL
     {
         printf("Deck is already freed.\n");
     }
+
+    // Function
 }
 
 int main()
