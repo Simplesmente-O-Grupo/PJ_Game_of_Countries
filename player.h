@@ -1,11 +1,17 @@
-#ifndef PLAYERS_H
-#define PLAYERS_H
+#ifndef PLAYER_H
+#define PLAYER_H
+#include "deck.h"
 
-typedef struct Players
+#define PLAYER_NAME_MAXLEN 50
+
+typedef struct Player
 {
-    int player_id;
-    char player_name[10];
+	int id;
+	char name[PLAYER_NAME_MAXLEN];
+	Deck *deck;
+} Player;
 
-} Plauyers;
+Player playerCreate(int id, char *name, int deck_size);
+void playerDestroy(Player *player);
 
 #endif
