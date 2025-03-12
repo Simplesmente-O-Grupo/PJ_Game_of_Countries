@@ -20,7 +20,7 @@ Card deckPeek(Deck *deck);
 	- Important function to inform each player to update his number of cards
 	in each turn. Good to increase the competition.
 */
-int countTotalCards(Deck *deck);
+int deckGetHeight(Deck *deck);
 void deckFree(Deck *deck);
 
 #endif

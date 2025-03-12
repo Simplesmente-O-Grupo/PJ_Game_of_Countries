@@ -28,7 +28,7 @@ int main()
 	in each turn. Good to increase the competition.
 */
 
-	int total_of_cards = countTotalCards(deck);
+	int total_of_cards = deckGetHeight(deck);
 	printf("Total of cards in player deck: %d\n", total_of_cards);
 
 	printf("peek:\n");

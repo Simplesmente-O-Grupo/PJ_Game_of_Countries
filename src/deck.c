@@ -58,17 +58,9 @@ int deckPush(Deck *deck, Card card)
 	in each turn. Good to increase the competition.
 */
 
-int countTotalCards(Deck *deck)
+int deckGetHeight(Deck *deck)
 {
-
-	int total_of_cards = 0;
-
-	for (int i = 0; i <= deck->top; i++)
-	{
-		total_of_cards++;
-	}
-
-	return total_of_cards;
+	return deck->top + 1;
 }
 
 /* É esperado que se verifique se
