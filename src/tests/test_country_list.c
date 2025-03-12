@@ -8,21 +8,21 @@ int main()
 	Card *countries;
 
     printf("Allocated and initialized:\n");
-	initialize_country_list(&countries);
+	initializeCountryList(&countries);
     printf("********************\n");
 
     printf("Cards Value Sorted:\n");
-    print_cards_value(countries);
+    printCardsValue(countries);
     printf("********************\n");
 
     shuffle(countries, GLOBAL_COUNTRIES_AMOUNT);
 
     printf("Countries Unsorted:\n");
-    print_cards_value(countries);
+    printCardsValue(countries);
     printf("********************\n");
 
     printf("Free Deck:\n");
-    free_country_list(&countries);
+    freeCountryList(&countries);
 
     // Verify that the deck has been freed
     if (countries == NULL)

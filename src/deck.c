@@ -6,7 +6,7 @@
 #include "include/card.h"
 
 /* Cria um baralho de tamanho arbritrário */
-Deck *deck_initialize(int size)
+Deck *deckInitialize(int size)
 {
 	Deck *deck = malloc(sizeof(deck));
 	if (deck == NULL)
@@ -32,19 +32,19 @@ Deck *deck_initialize(int size)
 	return deck;
 }
 
-int deck_is_full(Deck *deck)
+int deckIsFull(Deck *deck)
 {
 	return deck->top == deck->size - 1;
 }
 
-int deck_is_empty(Deck *deck)
+int deckIsEmpty(Deck *deck)
 {
 	return deck->top == -1;
 }
 
-int deck_push(Deck *deck, Card card)
+int deckPush(Deck *deck, Card card)
 {
-	if (deck_is_full(deck))
+	if (deckIsFull(deck))
 	{
 		return 0;
 	}
@@ -58,7 +58,7 @@ int deck_push(Deck *deck, Card card)
 	in each turn. Good to increase the competition.
 */
 
-int count_total_cards(Deck *deck)
+int countTotalCards(Deck *deck)
 {
 
 	int total_of_cards = 0;
@@ -74,21 +74,21 @@ int count_total_cards(Deck *deck)
 /* É esperado que se verifique se
  * o baralho está vazio antes de chamar a função
  */
-Card deck_pop(Deck *deck)
+Card deckPop(Deck *deck)
 {
-	assert(!deck_is_empty(deck));
+	assert(!deckIsEmpty(deck));
 
 	return deck->cards[deck->top--];
 }
 
-Card deck_peek(Deck *deck)
+Card deckPeek(Deck *deck)
 {
-	assert(!deck_is_empty(deck));
+	assert(!deckIsEmpty(deck));
 
 	return deck->cards[deck->top];
 }
 
-void deck_free(Deck *deck)
+void deckFree(Deck *deck)
 {
 	free(deck->cards);
 	free(deck);

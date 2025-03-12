@@ -10,17 +10,17 @@ typedef struct Deck
 	int size;
 } Deck;
 
-Deck *deck_initialize(int size);
-int deck_is_full(Deck *deck);
-int deck_is_empty(Deck *deck);
-int deck_push(Deck *deck, Card card);
-Card deck_pop(Deck *deck);
-Card deck_peek(Deck *deck);
+Deck *deckInitialize(int size);
+int deckIsFull(Deck *deck);
+int deckIsEmpty(Deck *deck);
+int deckPush(Deck *deck, Card card);
+Card deckPop(Deck *deck);
+Card deckPeek(Deck *deck);
 /*
 	- Important function to inform each player to update his number of cards
 	in each turn. Good to increase the competition.
 */
-int count_total_cards(Deck *deck);
-void deck_free(Deck *deck);
+int countTotalCards(Deck *deck);
+void deckFree(Deck *deck);
 
 #endif

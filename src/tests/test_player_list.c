@@ -21,8 +21,8 @@ int main() {
 
 	int acc = 0;
 	for (PlayerNode *i = players; i != NULL; i = i->next) {
-		deck_push(i->data.deck, create_card(acc++, "país genérico", "América do Sul Extendida", 0, 0, 0, 0));
-		deck_push(i->data.deck, create_card(acc++, "billions must play", "América do Sul Extendida", 1, 0, 0, 0));
+		deckPush(i->data.deck, createCard(acc++, "país genérico", "América do Sul Extendida", 0, 0, 0, 0));
+		deckPush(i->data.deck, createCard(acc++, "billions must play", "América do Sul Extendida", 1, 0, 0, 0));
 	}
 
 	/* Tamanho da lista */
@@ -43,7 +43,7 @@ void printPlayerList(PlayerNode *head) {
 		printf("id: %d\n", head->data.id);
 		printf("Número de cartas: %d\n", head->data.deck->top + 1);
 		printf("Carta atual:\n");
-		printCard(deck_peek(head->data.deck));
+		printCard(deckPeek(head->data.deck));
 		printf("------------------------\n");
 		head = head->next;
 	}

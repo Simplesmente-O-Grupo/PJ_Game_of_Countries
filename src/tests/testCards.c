@@ -118,7 +118,7 @@ void initizalize_cards(Cards *deck)
 }
 
 // Just test - This function will not implemented int the game
-void print_cards_value(Cards *deck)
+void printCardsValue(Cards *deck)
 {
     for (int i = 0; i < TOTAL_CARDS; i++)
     {
@@ -172,13 +172,13 @@ int main()
     printf("********************\n");
 
     /*printf("Cards Value Sorted:\n");
-    print_cards_value(deck);
+    printCardsValue(deck);
     printf("********************\n");*/
 
     shuffle(deck, TOTAL_CARDS);
 
     printf("Deck Unsorted: \n");
-    print_cards_value(deck);
+    printCardsValue(deck);
     printf("********************\n");
 
     printf("Free Deck:\n");
