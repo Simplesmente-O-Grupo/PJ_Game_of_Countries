@@ -2,8 +2,8 @@
 #include <time.h>
 #include <stdio.h>
 
-#include "countries.h"
-#include "card.h"
+#include "include/countries.h"
+#include "include/card.h"
 
 int initialize_country_list(Card **cards) {
 	*cards = malloc(sizeof(Card) * GLOBAL_COUNTRIES_AMOUNT);

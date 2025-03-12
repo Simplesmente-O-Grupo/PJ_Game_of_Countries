@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "player.h"
-#include "deck.h"
+#include "include/player.h"
+#include "include/deck.h"
 
 Player playerCreate(int id, char *name, int deck_size) {
 	Player player = {

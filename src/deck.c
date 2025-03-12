@@ -2,8 +2,8 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include "deck.h"
-#include "card.h"
+#include "include/deck.h"
+#include "include/card.h"
 
 /* Cria um baralho de tamanho arbritrário */
 Deck *deck_initialize(int size)

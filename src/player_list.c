@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "player.h"
-#include "player_list.h"
+#include "include/player.h"
+#include "include/player_list.h"
 
 int playerListIsEmpty(PlayerNode *head) {
 	return head == NULL;
