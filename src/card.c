@@ -5,10 +5,6 @@
 
 // FUNCTIONS IMPLEMENTATIONS
 
-/*
- * Cria uma carta. Só é usada no início do jogo para popular
- * o deck principal.
-*/
 Card createCard(int id, char *name, char *category, int defence, int army, int navy, int airforce) {
 	Card card = {
 		.id = id,
