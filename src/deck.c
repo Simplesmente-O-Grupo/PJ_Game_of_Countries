@@ -5,10 +5,16 @@
 #include "include/deck.h"
 #include "include/card.h"
 
+/*
+Aqui, deck é um ponteiro para Deck (Deck *), e o operador sizeof(deck) retorna o tamanho de um ponteiro, não da estrutura Deck. Em um sistema de 64 bits, por exemplo, sizeof(deck) pode ser 8 bytes (tamanho de um ponteiro), enquanto sizeof(Deck) pode ser muito maior (dependendo dos campos da struct).
+
+Isso significa que a alocação pode estar reservando menos memória do que o necessário, o que pode levar a comportamento indefinido e bugs difíceis de detectar.
+*/
+
 /* Cria um baralho de tamanho arbritrário */
 Deck *deckInitialize(int size)
 {
-	Deck *deck = malloc(sizeof(deck));
+	Deck *deck = malloc(sizeof(Deck));
 	if (deck == NULL)
 	{
 		fprintf(stderr, "[ERR]: Impossível alocar deck.\n");

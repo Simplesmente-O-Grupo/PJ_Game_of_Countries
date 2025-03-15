@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdint.h>
 #include "include/number_of_players.h"
 
@@ -9,7 +10,7 @@ int define_number_of_players(int number_players)
     {
         printf("Players: ");
 
-        if (scanf("%d", number_players != 1))
+        if (scanf("%d", &number_players) != 1)
         {
             printf("Invalid Value!\n");
             while (getchar() != '\n')

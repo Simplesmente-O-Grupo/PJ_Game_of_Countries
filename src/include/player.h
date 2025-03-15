@@ -11,7 +11,7 @@ typedef struct Player
 	Deck *deck;
 } Player;
 
-Player playerCreate(int id, char *name, int deck_size);
+Player playerCreate(int id, const char *name, int deck_size);
 void playerDestroy(Player *player);
 
 #endif
