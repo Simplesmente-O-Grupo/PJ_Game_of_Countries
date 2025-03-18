@@ -4,35 +4,42 @@
 #include "include/player.h"
 #include "include/player_list.h"
 
-int playerListIsEmpty(PlayerNode *head) {
+int playerListIsEmpty(PlayerNode *head)
+{
 	return head == NULL;
 }
 
-int playerListLen(PlayerNode *head) {
+int playerListLen(PlayerNode *head)
+{
 	int acc = 0;
-	while (head != NULL) {
+	while (head != NULL)
+	{
 		acc++;
 		head = head->next;
 	}
 	return acc;
 }
 
-int playerListInsert(PlayerNode **head, Player player) {
+int playerListInsert(PlayerNode **head, Player player)
+{
 	PlayerNode *tail = malloc(sizeof(PlayerNode));
-	if (tail == NULL) {
+	if (tail == NULL)
+	{
 		return 0;
 	}
 
 	tail->data = player;
 	tail->next = NULL;
 
-	if (playerListIsEmpty(*head)) {
+	if (playerListIsEmpty(*head))
+	{
 		*head = tail;
-		return 0;
+		return 1;
 	}
 
 	PlayerNode *i = *head;
-	while (i->next != NULL) {
+	while (i->next != NULL)
+	{
 		i = i->next;
 	}
 	i->next = tail;
@@ -42,10 +49,12 @@ int playerListInsert(PlayerNode **head, Player player) {
 
 /* Não preciso me preocupar em remover itens arbritrários da lista */
 
-void playerListFree(PlayerNode *head) {
+void playerListFree(PlayerNode *head)
+{
 	PlayerNode *tmp;
 
-	while (head != NULL) {
+	while (head != NULL)
+	{
 		tmp = head;
 		head = head->next;
 		playerDestroy(&(tmp->data));

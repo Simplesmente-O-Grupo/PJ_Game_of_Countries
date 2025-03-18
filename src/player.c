@@ -5,18 +5,43 @@
 
 #include "include/player.h"
 #include "include/deck.h"
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <assert.h>
 
-Player playerCreate(int id, char *name, int deck_size) {
+#include "include/player.h"
+#include "include/deck.h"
+
+Player playerCreate(int id, const char *name, int deck_size)
+{
 	Player player = {
-		.id = id
+		.id = id,
+		.deck = NULL // Inicializa o deck como NULL
 	};
+
+	// Copia o nome para a estrutura
+	strncpy(player.name, name, PLAYER_NAME_MAXLEN - 1);
+	player.name[PLAYER_NAME_MAXLEN - 1] = '\0'; // Garante que a string seja terminada corretamente
+
+	// Inicializa o baralho do jogador
 	player.deck = deckInitialize(deck_size);
-	assert(player.deck != NULL);
-	strcpy(player.name, name);
+	if (player.deck == NULL)
+	{
+		fprintf(stderr, "[ERR]: Falha ao criar o baralho do jogador.\n");
+	}
 
 	return player;
 }
 
-void playerDestroy(Player *player) {
-	deckFree(player->deck);
+void playerDestroy(Player *player)
+{
+	if (player != NULL)
+	{
+		if (player->deck != NULL)
+		{
+			deckFree(player->deck); // Libera o baralho do jogador
+			player->deck = NULL;	// Define o ponteiro como NULL para evitar uso acidental
+		}
+	}
 }
