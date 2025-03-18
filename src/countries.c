@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "include/countries.h"
+#include "include/player_list.h"
 #include "include/card.h"
 
 int initializeCountryList(Card **cards)
@@ -142,4 +143,26 @@ void freeCountryList(Card **cards)
 		free(*cards);
 		*cards = NULL; // Set the pointer to NULL after freeing
 	}
+}
+
+int distributeCards(Card *cards, PlayerNode *players)
+{
+	int cardsPerPlayer = GLOBAL_COUNTRIES_AMOUNT / playerListLen(players);
+	int acc = 0;
+
+    for (int i = 0; i < cardsPerPlayer; i++)
+    {
+		for (PlayerNode *current = players; current != NULL; current = current->next)
+        {
+            if (acc >= GLOBAL_COUNTRIES_AMOUNT) break;
+
+			if (!deckPush(current->data.deck, cards[acc++]))
+			{
+				printf("Error: Failed to push card to player's deck\n");
+				return 0;
+			}
+		}
+    }
+
+    return 1;
 }

@@ -1,48 +1,11 @@
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
 #include <string.h>
 #include <ctype.h>
-#include "include/player.h"
-#include "include/deck.h"
-#include "include/card.h"
-#include "include/number_of_players.h"
-#include "include/player_list.h"
-#include "include/countries.h"
-#include "include/distribution_cards.h"
-
-int distributeCards(Deck *mainDeck, PlayerNode *players, int cardsPerPlayer)
-{
-    int totalCardsNeeded = playerListLen(players) * cardsPerPlayer;
-    if (deckGetHeight(mainDeck) < totalCardsNeeded)
-    {
-        printf("Error: Not sufficient cards in main Deck\n");
-        return 0;
-    }
-
-    for (int i = 0; i < cardsPerPlayer; i++)
-    {
-        PlayerNode *current = players;
-        while (current != NULL)
-        {
-            if (!deckIsEmpty(mainDeck))
-            {
-                Card card = deckPop(mainDeck);
-
-                if (!deckPush(current->data.deck, card))
-                {
-                    printf("Error: Failed to push card to player's deck\n");
-                    return 0;
-                }
-            }
-
-            current = current->next;
-        }
-    }
-
-    return 1;
-}
+#include <stdio.h>
+#include "../include/player.h"
+#include "../include/deck.h"
+#include "../include/card.h"
+#include "../include/player_list.h"
+#include "../include/countries.h"
 
 void displayCard(Card card)
 {
@@ -82,30 +45,16 @@ void displayAllPlayers(PlayerNode *players)
     }
 }
 
-void displayMainDeck(Deck *deck, int showCards)
+void displayMainDeck(Card *cards)
 {
     printf("\n=== Baralho Principal ===\n");
-    printf("Total de cartas: %d\n", deckGetHeight(deck));
+    printf("Total de cartas: %d\n", GLOBAL_COUNTRIES_AMOUNT);
 
-    if (showCards && !deckIsEmpty(deck))
+    printf("\nCartas no baralho principal:\n");
+
+    for (int i = 0; i < GLOBAL_COUNTRIES_AMOUNT; i++)
     {
-        printf("\nCartas no baralho principal:\n");
-
-        Deck *tempDeck = deckInitialize(deckGetHeight(deck));
-
-        while (!deckIsEmpty(deck))
-        {
-            Card card = deckPop(deck);
-            displayCard(card);
-            deckPush(tempDeck, card);
-        }
-
-        while (!deckIsEmpty(tempDeck))
-        {
-            deckPush(deck, deckPop(tempDeck));
-        }
-
-        deckFree(tempDeck);
+        displayCard(cards[i]);
     }
 
     printf("\n");
@@ -114,8 +63,6 @@ void displayMainDeck(Deck *deck, int showCards)
 int main()
 {
     printf("Programa iniciado.\n");
-
-    srand(time(NULL));
 
     int numPlayers = 0;
     int cardsPerPlayer = 0;
@@ -127,8 +74,7 @@ int main()
         return 1;
     }
 
-    while (getchar() != '\n')
-        ;
+    while (getchar() != '\n');
 
     printf("Número de jogadores: %d\n", numPlayers);
 
@@ -146,29 +92,7 @@ int main()
     printf("Embaralhando as cartas...\n");
     shuffle(countryCards, GLOBAL_COUNTRIES_AMOUNT);
     printf("Cards shuffled successfully!.\n");
-
-    printf("Criando o baralho principal...\n");
-    Deck *mainDeck = deckInitialize(GLOBAL_COUNTRIES_AMOUNT);
-    if (mainDeck == NULL)
-    {
-        printf("Erro ao criar o baralho principal.\n");
-        freeCountryList(&countryCards);
-        return 1;
-    }
-
-    printf("Adicionando cartas ao baralho principal...\n");
-    for (int i = 0; i < GLOBAL_COUNTRIES_AMOUNT; i++)
-    {
-        if (!deckPush(mainDeck, countryCards[i]))
-        {
-            printf("Error to add card to principal Deck.\n");
-            deckFree(mainDeck);
-            freeCountryList(&countryCards);
-            return 1;
-        }
-    }
-
-    freeCountryList(&countryCards);
+    
 
     cardsPerPlayer = GLOBAL_COUNTRIES_AMOUNT / numPlayers;
     printf("Cartas por jogador: %d\n", cardsPerPlayer);
@@ -201,7 +125,7 @@ int main()
         if (newPlayer.deck == NULL)
         {
             printf("Error to create player.\n");
-            deckFree(mainDeck);
+            freeCountryList(&countryCards);
             playerListFree(playerList);
             return 1;
         }
@@ -211,18 +135,18 @@ int main()
         {
             printf("Erro ao adicionar jogador à lista.\n");
             playerDestroy(&newPlayer);
-            deckFree(mainDeck);
+            freeCountryList(&countryCards);
             playerListFree(playerList);
             return 1;
         }
     }
 
     printf("Distribuindo cartas...\n");
-    if (distributeCards(mainDeck, playerList, cardsPerPlayer))
+    if (distributeCards(countryCards, playerList))
     {
         printf("\nCards distributed successfully!\n");
 
-        displayMainDeck(mainDeck, 0);
+        displayMainDeck(countryCards);
 
         displayAllPlayers(playerList);
     }
@@ -232,7 +156,7 @@ int main()
     }
 
     printf("Liberando memória...\n");
-    deckFree(mainDeck);
+    freeCountryList(&countryCards);
     playerListFree(playerList);
 
     printf("Programa finalizado.\n");
