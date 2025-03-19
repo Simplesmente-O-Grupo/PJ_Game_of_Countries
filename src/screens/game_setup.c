@@ -25,14 +25,13 @@ void gameSetupScreen(GameData *game)
 	/* Etapa 2: Obter nomes de usuário*/
 	StrField playerNameField;
 	createStrField(&playerNameField, menuHeight, menuWidth, (LINES - menuHeight)/2,(COLS - menuWidth)/2, "Nome do jogador");
-	int cardsPerPlayer = GLOBAL_COUNTRIES_AMOUNT / playerQuantityField.value;
 
 	for (int i = 0; i < playerQuantityField.value; i++)
 	{
 		mvprintw((LINES - menuHeight)/2 + 3, (COLS - menuWidth)/2 + 1, "Jogador %d/%d", i + 1, playerQuantityField.value);
 		refresh();
 		focusStrField(&playerNameField);
-		playerListInsert(&game->players, playerCreate(i, playerNameField.value, cardsPerPlayer));
+		playerListInsert(&game->players, playerCreate(i, playerNameField.value));
 		playerNameField.value[0] = '\0';
 	}
 	/* Estes campos não são mais necessário */
