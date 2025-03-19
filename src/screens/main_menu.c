@@ -66,6 +66,8 @@ void mainMenuScreen(GameData *game) {
 					game->state = EXIT;
 				} else if (option == 0) {
 					game->state = GAME_SETUP;
+				} else if (option == 1) {
+					game->state = CREDITS_SCREEN;
 				}
 		}
 

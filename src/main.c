@@ -5,6 +5,7 @@
 #include "include/game_setup.h"
 #include "include/main_menu.h"
 #include "include/player_list.h"
+#include "include/credits.h"
 
 int main() {
 	initscr(); /* Inicializa a biblioteca curses */
@@ -32,7 +33,7 @@ int main() {
 				/* Lógica de jogo aqui */
 				break;
 			case CREDITS_SCREEN:
-				/* Lógica de créditos aqui */
+				creditsScreen(&game);
 				break;
 			case EXIT:
 				playerListFree(game.players);
