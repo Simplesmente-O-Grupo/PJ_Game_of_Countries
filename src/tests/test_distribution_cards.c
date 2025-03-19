@@ -121,7 +121,7 @@ int main()
         }
 
         printf("Criando jogador %s...\n", playerName);
-        Player newPlayer = playerCreate(i + 1, playerName, cardsPerPlayer);
+        Player newPlayer = playerCreate(i + 1, playerName);
         if (newPlayer.deck == NULL)
         {
             printf("Error to create player.\n");
