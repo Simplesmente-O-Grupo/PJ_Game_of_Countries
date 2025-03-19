@@ -14,10 +14,10 @@ int main() {
 	/* Criando e adicionando jogadores
 	* à lista. */
 
-	playerListInsert(&players, playerCreate(0, "Carlinhos", 20));
-	playerListInsert(&players, playerCreate(1, "Joãozinho", 20));
-	playerListInsert(&players, playerCreate(2, "xXx_gamer97_xXx", 20));
-	playerListInsert(&players, playerCreate(3, "pompompurin", 20));
+	playerListInsert(&players, playerCreate(0, "Carlinhos"));
+	playerListInsert(&players, playerCreate(1, "Joãozinho"));
+	playerListInsert(&players, playerCreate(2, "xXx_gamer97_xXx"));
+	playerListInsert(&players, playerCreate(3, "pompompurin"));
 
 	int acc = 0;
 	for (PlayerNode *i = players; i != NULL; i = i->next) {
