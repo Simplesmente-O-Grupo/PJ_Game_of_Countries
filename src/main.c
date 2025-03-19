@@ -1,25 +1,32 @@
 #include <stdio.h>
 #include <curses.h>
 
-#include "include/game_state.h"
+#include "include/game_data.h"
+#include "include/game_setup.h"
 #include "include/main_menu.h"
+#include "include/player_list.h"
 
 int main() {
 	initscr(); /* Inicializa a biblioteca curses */
 	noecho();
 	curs_set(0); /* Esconde o cursor do terminal */
+	keypad(stdscr, TRUE); /* Habilita teclas de funções, como as setas do teclado */
 
-	GameState state = MAIN_MENU;
+	GameData game = {
+		.state = MAIN_MENU,
+		.players = NULL
+	};
 
 	/* Ciclo do jogo, o estado define a tela para mostrar */
-	while (state != EXIT) {
+	while (game.state != EXIT) {
 		/* Apaga conteúdo da tela */
 		clear();
-		switch(state) {
+		switch(game.state) {
 			case MAIN_MENU:
-				mainMenuScreen(&state);
+				mainMenuScreen(&game);
 				break;
 			case GAME_SETUP:
+				gameSetupScreen(&game);
 				break;
 			case IN_GAME:
 				/* Lógica de jogo aqui */
@@ -28,6 +35,7 @@ int main() {
 				/* Lógica de créditos aqui */
 				break;
 			case EXIT:
+				playerListFree(game.players);
 				break;
 		}
 	}

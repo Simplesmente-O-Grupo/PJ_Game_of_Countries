@@ -1,8 +1,9 @@
-#ifndef GAME_STATE_H
-#define GAME_STATE_H
+#ifndef GAME_DATA_H
+#define GAME_DATA_H
+#include "player_list.h"
 /**
- * @file game_state.h
- * @brief Define o estado atual do jogo.
+ * @file game_data.h
+ * @brief Guarda informações globais sobre o jogo.
  */
 
 /**
@@ -31,4 +32,9 @@ typedef enum GameState {
 	 */
 	EXIT
 } GameState;
+
+typedef struct GameData {
+	GameState state;
+	PlayerNode *players;
+} GameData;
 #endif

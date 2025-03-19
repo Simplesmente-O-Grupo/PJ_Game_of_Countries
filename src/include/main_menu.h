@@ -1,6 +1,6 @@
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H
-#include "game_state.h"
+#include "game_data.h"
 /**
  * @file main_menu.h
  * @brief transfere a execução do programa para
@@ -12,7 +12,7 @@
  *
  * @param state Ponteiro do estado atual do jogo.
  */
-void mainMenuScreen(GameState *state);
+void mainMenuScreen(GameData *game);
 
 #endif
 

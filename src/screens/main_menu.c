@@ -1,6 +1,6 @@
 #include <curses.h>
 
-#include "../include/game_state.h"
+#include "../include/game_data.h"
 #include "../include/ui_utils.h"
 
 #define LOGO_WIDTH 48
@@ -14,7 +14,7 @@ void printLogo(int y, int x) {
 	mvprintw(y+4, x, " \\____\\__,_|_|  \\__,_|    \\_/\\_/ \\__,_|_|  |___/");
 }
 
-void mainMenuScreen(GameState *state) {
+void mainMenuScreen(GameData *game) {
 	/* Opções definidas no requisito RFGUI02 */
 	char *options[] = {
 		"Novo jogo",
@@ -51,10 +51,10 @@ void mainMenuScreen(GameState *state) {
 		/* coleta entrada do usuário */
 		key = getch();
 		switch(key) {
-			case 'k':
+			case KEY_UP:
 				option = (numOptions - 1 + option) % numOptions;
 				break;
-			case 'j':
+			case KEY_DOWN:
 				option = (option + 1) % numOptions;
 				break;
 			case '\n': /* Enter/Return */
@@ -63,7 +63,9 @@ void mainMenuScreen(GameState *state) {
 					/* O estado EXIT informa o programa para
 					 * encerrar execução
 					 */
-					*state = EXIT;
+					game->state = EXIT;
+				} else if (option == 0) {
+					game->state = GAME_SETUP;
 				}
 		}
 
