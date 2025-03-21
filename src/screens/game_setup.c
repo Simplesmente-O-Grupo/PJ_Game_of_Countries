@@ -3,6 +3,7 @@
 #include "../include/countries.h"
 #include "../include/game_data.h"
 #include "../include/ui_utils.h"
+#include "../include/fake_loading.h"
 
 void gameSetupScreen(GameData *game)
 {
@@ -40,4 +41,5 @@ void gameSetupScreen(GameData *game)
 	/*******************************************/
 
 	game->state = MAIN_MENU;
+	fakeLoadingScreen();
 }
