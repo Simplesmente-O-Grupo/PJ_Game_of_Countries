@@ -6,7 +6,7 @@
 #define LOGO_WIDTH 48
 #define LOGO_HEIGHT 4
 
-void printLogo(int y, int x) {
+static void printLogo(int y, int x) {
 	mvprintw(y,   x, "  ____              _  __        __             ");
 	mvprintw(y+1, x, " / ___|__ _ _ __ __| | \\ \\      / /_ _ _ __ ___ ");
 	mvprintw(y+2, x, "| |   / _` | '__/ _` |  \\ \\ /\\ / / _` | '__/ __|");
@@ -14,7 +14,7 @@ void printLogo(int y, int x) {
 	mvprintw(y+4, x, " \\____\\__,_|_|  \\__,_|    \\_/\\_/ \\__,_|_|  |___/");
 }
 
-void printHelicopter(int y, int x) {
+static void printHelicopter(int y, int x) {
 	mvprintw(y, x, "--------------------------------------");
 	mvprintw(y+1, x, "                  ||                  ");
 	mvprintw(y+2, x, "               --/__\\--               ");
@@ -24,7 +24,7 @@ void printHelicopter(int y, int x) {
 	mvprintw(y+6, x, "            O O  ----  O O            ");
 	mvprintw(y+7, x, "                /    \\                ");
 }
-void printTank(int y, int x, int invert) {
+static void printTank(int y, int x, int invert) {
 	if (!invert) {
 		mvprintw(y, x, "   [ O ]");
 		mvprintw(y+1, x, "     \\ \\     ");

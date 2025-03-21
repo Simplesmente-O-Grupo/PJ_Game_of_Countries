@@ -2,7 +2,7 @@
 #include <string.h>
 #include "../include/game_data.h"
 
-void printCredits(char *lines[], int linesAmount, int y)
+static void printCredits(char *lines[], int linesAmount, int y)
 {
 	for(int i = 0; i < linesAmount; i++)
 	{
