@@ -67,7 +67,7 @@ void creditsScreen(GameData *game)
 	timeout(850);
 	while(getch() != 'q')
 	{
-		clear();
+		erase();
 		printCredits(lines, linesAmount, y);
 		mvprintw(0, 0, "Pressione 'q' para sair.");
 		refresh();

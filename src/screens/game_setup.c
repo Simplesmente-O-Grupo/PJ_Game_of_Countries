@@ -8,7 +8,7 @@
 void gameSetupScreen(GameData *game)
 {
 	playerListFree(game->players);
-	clear();
+	erase();
 	refresh();
 	int menuWidth = 40;
 	int menuHeight = 3;
@@ -18,7 +18,7 @@ void gameSetupScreen(GameData *game)
 	createIntField(&playerQuantityField, menuHeight, menuWidth, (LINES - menuHeight)/2, (COLS - menuWidth)/2, "Quantidade de jogadores", 4);
 	focusIntField(&playerQuantityField);
 
-	clear();
+	erase();
 	refresh();
 
 	/*******************************************/

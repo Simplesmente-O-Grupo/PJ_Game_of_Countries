@@ -42,7 +42,7 @@ void createStrField(StrField *field, int height, int width, int y, int x, char *
 
 void drawStrField(StrField *field)
 {
-	wclear(field->window);
+	werase(field->window);
 	box(field->window, 0, 0);
 
 	wmove(field->window, 1, 1);
@@ -92,7 +92,7 @@ void createIntField(IntField *field, int height, int width, int y, int x, char *
 
 void drawIntField(IntField *field)
 {
-	wclear(field->window);
+	werase(field->window);
 	box(field->window, 0, 0);
 
 	wmove(field->window, 1, 1);

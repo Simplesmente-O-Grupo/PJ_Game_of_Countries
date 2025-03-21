@@ -80,7 +80,7 @@ void mainMenuScreen(GameData *game) {
 	 * usuário pressionar alguma tecla.
 	 */
 
-	clear();
+	erase();
 	printHelicopter(3, (COLS - 38) / 2);
 	printLogo((LINES/2) - LOGO_HEIGHT *  2, (COLS/2) - (LOGO_WIDTH / 2));
 	printTank((LINES) / 2, (COLS) / 2 + menuWidth, 0);
@@ -115,7 +115,7 @@ void mainMenuScreen(GameData *game) {
 				}
 		}
 
-		clear();
+		erase();
 		printHelicopter(3, (COLS - 38) / 2);
 		printLogo((LINES/2) - LOGO_HEIGHT *  2, (COLS/2) - (LOGO_WIDTH / 2));
 		printTank((LINES) / 2, (COLS) / 2 + menuWidth, 0);

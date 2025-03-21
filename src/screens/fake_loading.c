@@ -50,7 +50,7 @@ void fakeLoadingScreen(void) {
 		else if (i % 7 == 6) heliY--;
 		/****************************/
 
-		clear();
+		erase();
 		mvprintw(LINES/2, (COLS - strlen(loadingMsg[chosenMsg])) / 2, "%s", loadingMsg[chosenMsg]);
 		printTank(2 * LINES / 3, i);
 		printHelicopter(heliY, heliX + i);
