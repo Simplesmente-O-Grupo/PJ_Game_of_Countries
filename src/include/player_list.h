@@ -5,9 +5,11 @@
 
 #define MAX_PLAYERS 4
 
-typedef struct PlayerNode {
-	Player data; 
+typedef struct PlayerNode
+{
+	Player data;
 	struct PlayerNode *next;
+	// int turnNumber; // Temporary 03/22/2025
 } PlayerNode;
 
 int playerListIsEmpty(PlayerNode *head);
