@@ -145,24 +145,22 @@ void freeCountryList(Card **cards)
 	}
 }
 
-int distributeCards(Card *cards, PlayerNode *players)
+int distributeCards(Card *cards, PlayerNode *head)
 {
-	int cardsPerPlayer = GLOBAL_COUNTRIES_AMOUNT / playerListLen(players);
+	int playerCount = playerListLen(head);
+	int cardsPerPlayer = GLOBAL_COUNTRIES_AMOUNT / playerCount;
+	int maxCardIndex = cardsPerPlayer * playerCount;
 	int acc = 0;
 
-    for (int i = 0; i < cardsPerPlayer; i++)
-    {
-		for (PlayerNode *current = players; current != NULL; current = current->next)
-        {
-            if (acc >= GLOBAL_COUNTRIES_AMOUNT) break;
-
-			if (!deckPush(current->data.deck, cards[acc++]))
-			{
-				printf("Error: Failed to push card to player's deck\n");
-				return 0;
-			}
+	PlayerNode *temp = head;
+	while (acc < maxCardIndex) {
+		if (!deckPush(temp->data.deck, cards[acc++]))
+		{
+			printf("Error: Failed to push card to player's deck\n");
+			return 0;
 		}
-    }
+		temp = temp->next;
+	}
 
     return 1;
 }

@@ -38,11 +38,10 @@ void displayPlayerDeck(Player player)
 void displayAllPlayers(PlayerNode *players)
 {
     PlayerNode *current = players;
-    while (current != NULL)
-    {
+    do {
         displayPlayerDeck(current->data);
         current = current->next;
-    }
+    } while (current != players);
 }
 
 void displayMainDeck(Card *cards)
@@ -126,7 +125,7 @@ int main()
         {
             printf("Error to create player.\n");
             freeCountryList(&countryCards);
-            playerListFree(playerList);
+            playerListFree(&playerList);
             return 1;
         }
 
@@ -136,7 +135,7 @@ int main()
             printf("Erro ao adicionar jogador à lista.\n");
             playerDestroy(&newPlayer);
             freeCountryList(&countryCards);
-            playerListFree(playerList);
+            playerListFree(&playerList);
             return 1;
         }
     }
@@ -157,7 +156,7 @@ int main()
 
     printf("Liberando memória...\n");
     freeCountryList(&countryCards);
-    playerListFree(playerList);
+    playerListFree(&playerList);
 
     printf("Programa finalizado.\n");
     return 0;
