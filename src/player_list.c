@@ -12,11 +12,11 @@ int playerListIsEmpty(PlayerNode *head)
 int playerListLen(PlayerNode *head)
 {
 	int acc = 0;
-	while (head != NULL)
-	{
+	PlayerNode *temp = head;
+	do {
 		acc++;
-		head = head->next;
-	}
+		temp = temp->next;
+	} while (temp != head);
 	return acc;
 }
 
@@ -29,35 +29,118 @@ int playerListInsert(PlayerNode **head, Player player)
 	}
 
 	tail->data = player;
-	tail->next = NULL;
 
+	/* Caso especial: a lista está vazia */
 	if (playerListIsEmpty(*head))
 	{
 		*head = tail;
+		(*head)->next = *head;
 		return 1;
 	}
 
+	/* Caso genérico */
 	PlayerNode *i = *head;
-	while (i->next != NULL)
+	while (i->next != *head)
 	{
 		i = i->next;
 	}
 	i->next = tail;
+	tail->next = *head;
 
 	return 1;
 }
 
-/* Não preciso me preocupar em remover itens arbritrários da lista */
+void playerListRemove(PlayerNode **head, PlayerNode *target) {
+	if(playerListIsEmpty(*head)) return;
 
-void playerListFree(PlayerNode *head)
-{
-	PlayerNode *tmp;
+	PlayerNode *temp = *head;
 
-	while (head != NULL)
-	{
-		tmp = head;
-		head = head->next;
-		playerDestroy(&(tmp->data));
-		free(tmp);
+	if (target == *head) {
+		/* Caso especial: A lista só tem um membro */
+		if (temp->next == *head) {
+			playerDestroy(&(*head)->data);
+			free(*head);
+			*head = NULL;
+			return;
+		}
+
+		/* Caso especial: O alvo é head */
+		while (temp->next != *head) {
+			temp = temp->next;
+		}
+		temp->next = (*head)->next;
+
+		playerDestroy(&(*head)->data);
+		free(*head);
+
+		*head = temp->next;
+		return;
 	}
+
+	/* Caso genérico */
+	PlayerNode *prev;
+	while (temp->next != *head) {
+		prev = temp;
+		temp = temp->next;
+		if (temp == target) {
+			prev->next = temp->next;
+			playerDestroy(&temp->data);
+			free(temp);
+		}
+	}
+}
+
+void playerListFree(PlayerNode **head)
+{
+	if (playerListIsEmpty(*head)) return;
+
+	PlayerNode *current = *head;
+	PlayerNode *next;
+	do {
+		next = current->next;
+		playerDestroy(&current->data);
+		free(current);
+		current = next;
+	} while (current != *head);
+}
+
+PlayerNode *playerListHighestAttribute(PlayerNode *head, CardAttribute attr) {
+	PlayerNode *temp = head;
+	PlayerNode *winner;
+	int tie = 0;
+	int highestAttrValue = 0;
+	do {
+		int currAttrValue;
+		Card currCard = deckPeek(temp->data.deck);
+		switch(attr) {
+			case ARMY:
+				currAttrValue = currCard.army;
+				break;
+			case DEFENCE:
+				currAttrValue = currCard.defence;
+				break;
+			case NAVY:
+				currAttrValue = currCard.navy;
+				break;
+			case AIRFORCE:
+				currAttrValue = currCard.airforce;
+				break;
+		}
+		if (highestAttrValue < currAttrValue) {
+			highestAttrValue = currAttrValue;
+			tie = 0;
+			winner = temp;
+		} else if (highestAttrValue == currAttrValue) {
+			/* Empate, não há vencedores */
+			tie = 1;
+		}
+		/* temp debug */
+		printf("%s: %s - %d\n", temp->data.name, deckPeek(temp->data.deck).name, currAttrValue);
+		temp = temp->next;
+	} while(temp != head);
+
+	if (tie) {
+		return NULL;
+	}
+	return winner;
 }

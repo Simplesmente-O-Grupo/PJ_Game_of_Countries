@@ -3,7 +3,7 @@
 #include "card.h"
 #include "player_list.h"
 
-#define GLOBAL_COUNTRIES_AMOUNT 80
+#define GLOBAL_COUNTRIES_AMOUNT 7
 
 int initializeCountryList(Card **cards);
 

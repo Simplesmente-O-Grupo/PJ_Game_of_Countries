@@ -14,16 +14,18 @@ int main() {
 	/* Criando e adicionando jogadores
 	* à lista. */
 
-	playerListInsert(&players, playerCreate(0, "Carlinhos", 20));
-	playerListInsert(&players, playerCreate(1, "Joãozinho", 20));
-	playerListInsert(&players, playerCreate(2, "xXx_gamer97_xXx", 20));
-	playerListInsert(&players, playerCreate(3, "pompompurin", 20));
+	playerListInsert(&players, playerCreate(0, "Carlinhos"));
+	playerListInsert(&players, playerCreate(1, "Joãozinho"));
+	playerListInsert(&players, playerCreate(2, "xXx_gamer97_xXx"));
+	playerListInsert(&players, playerCreate(3, "pompompurin"));
 
 	int acc = 0;
-	for (PlayerNode *i = players; i != NULL; i = i->next) {
+	PlayerNode *i = players;
+	do {
 		deckPush(i->data.deck, createCard(acc++, "país genérico", "América do Sul Extendida", 0, 0, 0, 0));
 		deckPush(i->data.deck, createCard(acc++, "billions must play", "América do Sul Extendida", 1, 0, 0, 0));
-	}
+		i = i->next;
+	} while (i != players);
 
 	/* Tamanho da lista */
 	printf("Tamanho da lista: %d\n", playerListLen(players));
@@ -32,21 +34,22 @@ int main() {
 	printPlayerList(players);
 
 	/* Free na lista */
-	playerListFree(players);
+	playerListFree(&players);
 	return 0;
 }
 
 void printPlayerList(PlayerNode *head) {
-	while (head != NULL) {
+	PlayerNode *temp = head;
+	do {
 		printf("------------------------\n");
-		printf("Jogador: %s\n", head->data.name);
-		printf("id: %d\n", head->data.id);
-		printf("Número de cartas: %d\n", head->data.deck->top + 1);
+		printf("Jogador: %s\n", temp->data.name);
+		printf("id: %d\n", temp->data.id);
+		printf("Número de cartas: %d\n", temp->data.deck->top + 1);
 		printf("Carta atual:\n");
-		printCard(deckPeek(head->data.deck));
+		printCard(deckPeek(temp->data.deck));
 		printf("------------------------\n");
-		head = head->next;
-	}
+		temp = temp->next;
+	} while(temp != head);
 }
 
 void printCard(Card card) {
