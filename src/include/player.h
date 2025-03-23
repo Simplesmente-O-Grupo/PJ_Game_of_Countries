@@ -12,6 +12,7 @@ typedef struct Player
 } Player;
 
 Player playerCreate(int id, const char *name);
+void playerTransferCard(Player *dest, Player *src);
 void playerDestroy(Player *player);
 
 #endif

@@ -103,3 +103,44 @@ void playerListFree(PlayerNode **head)
 		current = next;
 	} while (current != *head);
 }
+
+PlayerNode *playerListHighestAttribute(PlayerNode *head, CardAttribute attr) {
+	PlayerNode *temp = head;
+	PlayerNode *winner;
+	int tie = 0;
+	int highestAttrValue = 0;
+	do {
+		int currAttrValue;
+		Card currCard = deckPeek(temp->data.deck);
+		switch(attr) {
+			case ARMY:
+				currAttrValue = currCard.army;
+				break;
+			case DEFENCE:
+				currAttrValue = currCard.defence;
+				break;
+			case NAVY:
+				currAttrValue = currCard.navy;
+				break;
+			case AIRFORCE:
+				currAttrValue = currCard.airforce;
+				break;
+		}
+		if (highestAttrValue < currAttrValue) {
+			highestAttrValue = currAttrValue;
+			tie = 0;
+			winner = temp;
+		} else if (highestAttrValue == currAttrValue) {
+			/* Empate, não há vencedores */
+			tie = 1;
+		}
+		/* temp debug */
+		printf("%s: %s - %d\n", temp->data.name, deckPeek(temp->data.deck).name, currAttrValue);
+		temp = temp->next;
+	} while(temp != head);
+
+	if (tie) {
+		return NULL;
+	}
+	return winner;
+}

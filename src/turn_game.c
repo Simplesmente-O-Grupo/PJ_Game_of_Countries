@@ -2,12 +2,11 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/player.h"
-#include "../include/deck.h"
-#include "../include/card.h"
-#include "../include/player_list.h"
-#include "../include/countries.h"
-#include "../include/turn_game.h"
+#include "include/player.h"
+#include "include/deck.h"
+#include "include/card.h"
+#include "include/player_list.h"
+#include "include/countries.h"
 
 // Função para exibir uma carta
 void displayCard(Card card)
@@ -40,14 +39,13 @@ void displayPlayerDeck(Player player)
 }
 
 // Função para exibir o baralho de todos os jogadores
-void displayAllPlayers(PlayerNode *players)
+void displayAllPlayers(PlayerNode *head)
 {
-    PlayerNode *current = players;
-    while (current != NULL)
-    {
+    PlayerNode *current = head;
+    do {
         displayPlayerDeck(current->data);
         current = current->next;
-    }
+    } while (current != head);
 }
 
 // Função para exibir o baralho principal
@@ -64,354 +62,36 @@ void displayMainDeck(Card *cards)
     printf("\n");
 }
 
-// Função para lidar com uma batalha
-PlayerNode *handleBattle(PlayerNode *currentPlayer, PlayerNode *playerList, int chooseAttribute, Deck *battleDeck)
-{
-    // Adiciona a carta do jogador atual ao baralho de batalha
-    Card currentPlayerCard = deckPop(currentPlayer->data.deck);
-    deckPush(battleDeck, currentPlayerCard);
+CardAttribute promptAttribute(Card peekCard) {
+	CardAttribute chosenAttribute;
+	int scannedAttribute;
+	printf("\nChoose an attribute to battle with:\n");
+	printf("1) Airforce (%d)\n", peekCard.airforce);
+	printf("2) Navy (%d)\n", peekCard.navy);
+	printf("3) Defence (%d)\n", peekCard.defence);
+	printf("4) Army (%d)\n", peekCard.army);
 
-    PlayerNode *winningPlayer = currentPlayer;
-    int highestValue = 0;
-    int tieFlag = 0;
-
-    // Inicializa o valor mais alto com o atributo escolhido do jogador atual
-    switch (chooseAttribute)
-    {
-    case 1:
-        highestValue = currentPlayerCard.airforce;
-        break;
-    case 2:
-        highestValue = currentPlayerCard.navy;
-        break;
-    case 3:
-        highestValue = currentPlayerCard.defence;
-        break;
-    case 4:
-        highestValue = currentPlayerCard.army;
-        break;
-    default:
-        break;
-    }
-
-    printf("\n--- BATTLE RESULTS ---\n");
-    printf("%s: %s - %d\n", currentPlayer->data.name, currentPlayerCard.name, highestValue);
-
-    // Compara com as cartas dos outros jogadores
-    PlayerNode *otherPlayer = playerList;
-    while (otherPlayer != NULL)
-    {
-        if (otherPlayer == currentPlayer)
-        {
-            otherPlayer = otherPlayer->next;
-            continue; // Pula o jogador atual
-        }
-
-        if (deckIsEmpty(otherPlayer->data.deck))
-        {
-            printf("%s has no cards to play.\n", otherPlayer->data.name);
-            otherPlayer = otherPlayer->next;
-            continue; // Pula jogadores sem cartas
-        }
-
-        // Adiciona a carta do outro jogador ao baralho de batalha
-        Card otherPlayerCard = deckPop(otherPlayer->data.deck);
-        deckPush(battleDeck, otherPlayerCard);
-
-        int otherAttributeValue = 0;
-        switch (chooseAttribute)
-        {
-        case 1:
-            otherAttributeValue = otherPlayerCard.airforce;
-            break;
-        case 2:
-            otherAttributeValue = otherPlayerCard.navy;
-            break;
-        case 3:
-            otherAttributeValue = otherPlayerCard.defence;
-            break;
-        case 4:
-            otherAttributeValue = otherPlayerCard.army;
-            break;
-        default:
-            break;
-        }
-
-        printf("%s: %s - %d\n", otherPlayer->data.name, otherPlayerCard.name, otherAttributeValue);
-
-        // Verifica se há um novo vencedor ou empate
-        if (otherAttributeValue > highestValue)
-        {
-            highestValue = otherAttributeValue;
-            winningPlayer = otherPlayer;
-            tieFlag = 0; // Reseta a flag de empate
-        }
-        else if (otherAttributeValue == highestValue)
-        {
-            tieFlag = 1; // Define a flag de empate
-        }
-
-        otherPlayer = otherPlayer->next;
-    }
-
-    // Verifica se houve empate
-    if (tieFlag)
-    {
-        printf("\nIt's a TIE! Starting a WAR round...\n");
-        return handleWar(playerList, chooseAttribute, battleDeck);
-    }
-    else
-    {
-        printf("\n%s WINS this round with %d!\n", winningPlayer->data.name, highestValue);
-
-        // Adiciona todas as cartas do baralho de batalha ao baralho do vencedor
-        while (!deckIsEmpty(battleDeck))
-        {
-            Card wonCard = deckPop(battleDeck);
-            deckPush(winningPlayer->data.deck, wonCard);
-        }
-
-        printf("%s now has %d cards.\n", winningPlayer->data.name, deckGetHeight(winningPlayer->data.deck));
-        return winningPlayer;
-    }
-}
-
-// Função para lidar com uma guerra
-PlayerNode *handleWar(PlayerNode *playerList, int chooseAttribute, Deck *battleDeck)
-{
-    int tieFlag = 1;
-    PlayerNode *winningPlayer = NULL;
-    int highestValue = 0;
-
-    while (tieFlag)
-    {
-        printf("\n--- WAR ROUND ---\n");
-        tieFlag = 0;
-        highestValue = 0;
-
-        // Cada jogador joga uma nova carta no baralho de batalha
-        PlayerNode *warPlayer = playerList;
-        while (warPlayer != NULL)
-        {
-            if (deckIsEmpty(warPlayer->data.deck))
-            {
-                printf("%s has no cards to play and is out of the game.\n", warPlayer->data.name);
-                warPlayer = warPlayer->next;
-                continue; // Pula jogadores sem cartas
-            }
-
-            Card warCard = deckPop(warPlayer->data.deck);
-            deckPush(battleDeck, warCard);
-
-            printf("%s played: %s\n", warPlayer->data.name, warCard.name);
-            warPlayer = warPlayer->next;
-        }
-
-        // Compara as cartas jogadas na guerra
-        warPlayer = playerList;
-        while (warPlayer != NULL)
-        {
-            if (deckIsEmpty(warPlayer->data.deck))
-            {
-                warPlayer = warPlayer->next;
-                continue; // Pula jogadores sem cartas
-            }
-
-            int warAttributeValue = 0;
-            switch (chooseAttribute)
-            {
-            case 1:
-                warAttributeValue = deckPeek(battleDeck).airforce;
-                break;
-            case 2:
-                warAttributeValue = deckPeek(battleDeck).navy;
-                break;
-            case 3:
-                warAttributeValue = deckPeek(battleDeck).defence;
-                break;
-            case 4:
-                warAttributeValue = deckPeek(battleDeck).army;
-                break;
-            default:
-                break;
-            }
-
-            printf("%s: %s - %d\n", warPlayer->data.name, deckPeek(battleDeck).name, warAttributeValue);
-
-            // Verifica se há um novo vencedor ou empate
-            if (warAttributeValue > highestValue)
-            {
-                highestValue = warAttributeValue;
-                winningPlayer = warPlayer;
-                tieFlag = 0; // Reseta a flag de empate
-            }
-            else if (warAttributeValue == highestValue)
-            {
-                tieFlag = 1; // Define a flag de empate
-            }
-
-            warPlayer = warPlayer->next;
-        }
-
-        if (tieFlag)
-        {
-            printf("\nAnother TIE! Continuing the WAR...\n");
-        }
-    }
-
-    printf("\n%s WINS the WAR with %s = %d!\n", winningPlayer->data.name,
-           (chooseAttribute == 1 ? "Airforce" : chooseAttribute == 2 ? "Navy"
-                                            : chooseAttribute == 3   ? "Defence"
-                                                                     : "Army"),
-           highestValue);
-
-    // Adiciona todas as cartas do baralho de batalha ao baralho do vencedor
-    int cardsWon = 0;
-    while (!deckIsEmpty(battleDeck))
-    {
-        Card wonCard = deckPop(battleDeck);
-        deckPush(winningPlayer->data.deck, wonCard);
-        cardsWon++;
-    }
-
-    printf("%s now has %d cards (ganhou %d nesta rodada).\n",
-           winningPlayer->data.name, deckGetHeight(winningPlayer->data.deck), cardsWon);
-
-    return winningPlayer;
-}
-
-// Função para eliminar um jogador
-void eliminatePlayer(PlayerNode **playerList, PlayerNode *player)
-{
-    if (*playerList == NULL || player == NULL)
-        return;
-
-    if (*playerList == player)
-    {
-        *playerList = player->next;
-        playerDestroy(&player->data);
-        free(player);
-        return;
-    }
-
-    PlayerNode *temp = *playerList;
-    while (temp->next != NULL && temp->next != player)
-    {
-        temp = temp->next;
-    }
-
-    if (temp->next == player)
-    {
-        temp->next = player->next;
-        playerDestroy(&player->data);
-        free(player);
-    }
-}
-
-// Função para verificar se o jogo acabou
-void checkGameOver(PlayerNode *playerList)
-{
-    int playersWithCards = 0;
-    PlayerNode *winner = NULL;
-    PlayerNode *temp = playerList;
-
-    while (temp != NULL)
-    {
-        if (!deckIsEmpty(temp->data.deck))
-        {
-            playersWithCards++;
-            winner = temp;
-        }
-        temp = temp->next;
-    }
-
-    if (playersWithCards == 1)
-    {
-        printf("\n%s WINS THE GAME with %d cards!\n", winner->data.name, deckGetHeight(winner->data.deck));
-        exit(0);
-    }
-}
-
-// Função principal do jogo
-void turnGame(Card *card, PlayerNode *playerList)
-{
-    static PlayerNode *currentPlayer = NULL;
-
-    // Inicializa o currentPlayer se for NULL
-    if (currentPlayer == NULL)
-    {
-        currentPlayer = playerList;
-    }
-
-    // Verifica se há jogadores na lista
-    if (currentPlayer == NULL)
-    {
-        printf("No players in the list!\n");
-        return;
-    }
-
-    printf("\n*** %s's Turn ***\n", currentPlayer->data.name);
-
-    // Verifica se o jogador atual tem cartas
-    if (deckIsEmpty(currentPlayer->data.deck))
-    {
-        printf("Player has no cards left.\n");
-        eliminatePlayer(&playerList, currentPlayer);
-        currentPlayer = currentPlayer->next;
-        if (currentPlayer == NULL)
-        {
-            currentPlayer = playerList; // Volta ao início da lista
-        }
-        return;
-    }
-
-    // Exibe a carta do topo do baralho do jogador atual
-    Card peekCard = deckPeek(currentPlayer->data.deck);
-    printf("Your top card is:\n");
-    displayCard(peekCard);
-
-    // Solicita ao jogador que escolha um atributo
-    int chooseAttribute = 0;
-    printf("\nChoose an attribute to battle with:\n");
-    printf("1) Airforce (%d)\n", peekCard.airforce);
-    printf("2) Navy (%d)\n", peekCard.navy);
-    printf("3) Defence (%d)\n", peekCard.defence);
-    printf("4) Army (%d)\n", peekCard.army);
-
-    if (scanf("%d", &chooseAttribute) != 1 || chooseAttribute < 1 || chooseAttribute > 4)
-    {
-        printf("Invalid choice. Defaulting to Airforce.\n");
-        chooseAttribute = 1;
-    }
-
-    // Cria um baralho temporário para a batalha
-    Deck *battleDeck = deckInitialize(GLOBAL_COUNTRIES_AMOUNT);
-    if (battleDeck == NULL)
-    {
-        printf("Error: Failed to allocate memory for battle deck.\n");
-        return;
-    }
-
-    // Executa a batalha
-    PlayerNode *winner = handleBattle(currentPlayer, playerList, chooseAttribute, battleDeck);
-    deckFree(battleDeck);
-
-    // Atualiza o currentPlayer para o próximo jogador
-    if (winner != NULL)
-    {
-        currentPlayer = winner;
-    }
-    else
-    {
-        currentPlayer = currentPlayer->next;
-        if (currentPlayer == NULL)
-        {
-            currentPlayer = playerList; // Volta ao início da lista
-        }
-    }
-
-    // Verifica se o jogo acabou
-    checkGameOver(playerList);
+	if (scanf("%d", &scannedAttribute) != 1 || scannedAttribute < 1 || scannedAttribute > 4)
+	{
+		printf("Invalid choice. Defaulting to Airforce.\n");
+		chosenAttribute = AIRFORCE;
+	} else {
+		switch(scannedAttribute) {
+			case 1:
+				chosenAttribute = AIRFORCE;
+				break;
+			case 2:
+				chosenAttribute = NAVY;
+				break;
+			case 3:
+				chosenAttribute = DEFENCE;
+				break;
+			case 4:
+				chosenAttribute = ARMY;
+				break;
+		}
+	}
+	return chosenAttribute;
 }
 
 // Função para exibir o menu de ajuda
@@ -447,19 +127,13 @@ int main()
         }
     }
 
-    while (getchar() != '\n')
-        ;
+    while (getchar() != '\n');
 
     printf("Número de jogadores: %d\n", numPlayers);
 
     Card *countryCards = NULL;
     printf("Inicializando a lista de países...\n");
-    if (!initializeCountryList(&countryCards))
-    {
-        printf("Erro ao inicializar a lista de países.\n");
-        return 1;
-    }
-
+    initializeCountryList(&countryCards);
     printf("Lista de países inicializada com %d cartas.\n", GLOBAL_COUNTRIES_AMOUNT);
 
     printf("Embaralhando as cartas...\n");
@@ -485,8 +159,7 @@ int main()
             }
             else
             {
-                while (getchar() != '\n')
-                    ;
+                while (getchar() != '\n');
             }
 
             for (int j = 0; playerName[j]; j++)
@@ -495,70 +168,84 @@ int main()
             }
 
             printf("Criando jogador %s...\n", playerName);
-            Player newPlayer = playerCreate(i + 1, playerName, cardsPerPlayer);
-            if (newPlayer.deck == NULL)
-            {
-                printf("Erro ao criar jogador.\n");
-                freeCountryList(&countryCards);
-                playerListFree(playerList);
-                return 1;
-            }
+            Player newPlayer = playerCreate(i + 1, playerName);
 
-            if (!playerListInsert(&playerList, newPlayer))
-            {
-                printf("Erro ao adicionar jogador à lista.\n");
-                playerDestroy(&newPlayer);
-                freeCountryList(&countryCards);
-                playerListFree(playerList);
-                return 1;
-            }
+            playerListInsert(&playerList, newPlayer);
         }
     }
 
     printf("Distribuindo cartas...\n");
-    if (!distributeCards(countryCards, playerList))
-    {
-        printf("Erro ao distribuir cartas.\n");
-        freeCountryList(&countryCards);
-        playerListFree(playerList);
-        return 1;
-    }
+    distributeCards(countryCards, playerList);
+	freeCountryList(&countryCards);
 
     printf("\nCartas distribuídas com sucesso!\n");
-    displayMainDeck(countryCards);
     displayAllPlayers(playerList);
 
-    // Loop principal do jogo
-    while (1)
-    {
-        PlayerNode *currentPlayer = playerList;
-        while (currentPlayer != NULL)
-        {
-            printf("\n=== %s's Turn ===\n", currentPlayer->data.name);
+	PlayerNode *turnMaster = playerList;
+	Deck *battleDeck = deckInitialize(GLOBAL_COUNTRIES_AMOUNT);
+	// Loop principal do jogo - enquanto houver mais de um jogador.
+	do {
+		PlayerNode *temp = playerList;
 
-            if (deckIsEmpty(currentPlayer->data.deck))
-            {
-                printf("%s has no cards left and is out of the game.\n", currentPlayer->data.name);
-                eliminatePlayer(&playerList, currentPlayer);
-                currentPlayer = currentPlayer->next;
-                if (currentPlayer == NULL)
-                {
-                    currentPlayer = playerList;
-                }
-                continue;
-            }
+		/* 1 Show the player his card */
+		printf("\n%s:\n", turnMaster->data.name);
+		displayCard(deckPeek(turnMaster->data.deck));
 
-            turnGame(NULL, playerList);
-            checkGameOver(playerList);
+		/* 2 Ask for an attribute */
+		CardAttribute attr = promptAttribute(deckPeek(turnMaster->data.deck));
+		/* 3 Find the player with the highest attribute. */
+		PlayerNode *roundWinner = playerListHighestAttribute(playerList, attr);
+		/* 4 Stash away everyone's cards. */
+		do {
+			if (deckGetHeight(temp->data.deck) > 0 && temp != turnMaster ) {
+				deckPush(battleDeck, deckPop(temp->data.deck));
+			}
+			temp = temp->next;
+		}while (temp != playerList);
+		if (deckGetHeight(turnMaster->data.deck) > 0) {
+			deckPush(battleDeck, deckPop(turnMaster->data.deck));
+		}
 
-            currentPlayer = currentPlayer->next;
-        }
-    }
+		/* 5 If there's a tie, go back to step. 1 */
+		if (roundWinner == NULL) continue;
 
-    printf("Liberando memória...\n");
-    freeCountryList(&countryCards);
-    playerListFree(playerList);
+		/* 6 If there's not, give all of the stashed cards to the winner player. */
+		int cardsWon = deckGetHeight(battleDeck);
+		while (deckGetHeight(battleDeck) > 0) {
+			deckPush(roundWinner->data.deck, deckPop(battleDeck));
+		}
+		printf("%s Ganhou o round e tem %d cartas (%d cartas ganhas)\n", roundWinner->data.name, deckGetHeight(roundWinner->data.deck), cardsWon);
+		
 
-    printf("Programa finalizado.\n");
-    return 0;
+		temp = turnMaster;
+
+		/* 7 Remove players with no cards */
+		/* 7.1 Make sure the turn mater has some cards */
+		while (deckGetHeight(turnMaster->data.deck) <= 0) {
+			turnMaster = turnMaster->next;
+		}
+
+		/* 7.2 Remove players with no cards */
+		temp = playerList;
+		do {
+			PlayerNode *next = temp->next;
+			if (deckGetHeight(temp->data.deck) <= 0) {
+				playerListRemove(&playerList, temp);
+			}
+			temp = next;
+		} while(temp != playerList);
+
+		/* 8 If the winner player is the turn master, go back to step 1. */
+		if (roundWinner == turnMaster) continue;
+
+		/* 9 Otherwise, go to the next player */
+		turnMaster = turnMaster->next;
+	} while (playerList->next != playerList);
+
+	printf("\n%s WINS THE GAME with %d cards!\n", playerList->data.name, deckGetHeight(playerList->data.deck));
+	printf("Liberando memória...\n");
+	playerListFree(&playerList);
+
+	printf("Programa finalizado.\n");
+	return 0;
 }

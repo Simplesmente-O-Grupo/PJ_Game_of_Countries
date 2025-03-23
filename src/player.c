@@ -28,6 +28,11 @@ Player playerCreate(int id, const char *name)
 	return player;
 }
 
+
+void playerTransferCard(Player *dest, Player *src) {
+	deckPush(dest->deck, deckPop(src->deck));
+}
+
 void playerDestroy(Player *player)
 {
 	if (player != NULL)

@@ -11,6 +11,13 @@
 #define CARD_MAX_NAME_LEN 30
 #define CARD_MAX_CATEGORY_LEN 30
 
+typedef enum CardAttribute {
+	DEFENCE,
+	ARMY,
+	NAVY,
+	AIRFORCE
+} CardAttribute;
+
 typedef struct Card {
     int id;            // card identification
     char name[CARD_MAX_NAME_LEN];     // card name of the country
@@ -35,4 +42,5 @@ typedef struct Card {
 */
 Card createCard(int id, char *name, char *category, int defence, int army, int navy, int airforce);
 
+int cardGetAttribute(Card card, CardAttribute attr);
 #endif

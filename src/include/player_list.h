@@ -25,5 +25,6 @@ int playerListLen(PlayerNode *head);
 int playerListInsert(PlayerNode **head, Player player);
 void playerListFree(PlayerNode **head);
 void playerListRemove(PlayerNode **head, PlayerNode *target);
+PlayerNode *playerListHighestAttribute(PlayerNode *head, CardAttribute attr);
 
 #endif
