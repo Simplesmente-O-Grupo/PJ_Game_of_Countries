@@ -185,64 +185,53 @@ int main()
 	Deck *battleDeck = deckInitialize(GLOBAL_COUNTRIES_AMOUNT);
 	// Loop principal do jogo - enquanto houver mais de um jogador.
 	do {
-		PlayerNode *temp = playerList;
-
-		/* 1 Show the player his card */
-		printf("\n%s:\n", turnMaster->data.name);
-		displayCard(deckPeek(turnMaster->data.deck));
-
-		/* 2 Ask for an attribute */
-		CardAttribute attr = promptAttribute(deckPeek(turnMaster->data.deck));
-		/* 3 Find the player with the highest attribute. */
-		PlayerNode *roundWinner = playerListHighestAttribute(playerList, attr);
-		/* 4 Stash away everyone's cards. */
-		do {
-			if (deckGetHeight(temp->data.deck) > 0 && temp != turnMaster ) {
-				deckPush(battleDeck, deckPop(temp->data.deck));
-			}
-			temp = temp->next;
-		}while (temp != playerList);
+		/* 1 Verificar se o jogador tem cartas para jogar. */
 		if (deckGetHeight(turnMaster->data.deck) > 0) {
-			deckPush(battleDeck, deckPop(turnMaster->data.deck));
-		}
-
-		/* 5 If there's a tie, go back to step. 1 */
-		if (roundWinner == NULL) continue;
-
-		/* 6 If there's not, give all of the stashed cards to the winner player. */
-		int cardsWon = deckGetHeight(battleDeck);
-		while (deckGetHeight(battleDeck) > 0) {
-			deckPush(roundWinner->data.deck, deckPop(battleDeck));
-		}
-		printf("%s Ganhou o round e tem %d cartas (%d cartas ganhas)\n", roundWinner->data.name, deckGetHeight(roundWinner->data.deck), cardsWon);
-		
-
-		temp = turnMaster;
-
-		/* 7 Remove players with no cards */
-		/* 7.1 Make sure the turn mater has some cards */
-		while (deckGetHeight(turnMaster->data.deck) <= 0) {
-			turnMaster = turnMaster->next;
-		}
-
-		/* 7.2 Remove players with no cards */
-		temp = playerList;
-		do {
-			PlayerNode *next = temp->next;
-			if (deckGetHeight(temp->data.deck) <= 0) {
-				playerListRemove(&playerList, temp);
+			/* 2 Mostrar para o jogador sua carta */
+			displayCard(deckPeek(turnMaster->data.deck));
+			/* 3 pedir um atributo. */
+			CardAttribute attr = promptAttribute(deckPeek(turnMaster->data.deck));
+			/* 4 Ache o jogador com o maior atributo. */
+			PlayerNode *winner = playerListHighestAttribute(playerList, attr);
+			/* 5 Guardar as cartas de todos */
+			PlayerNode *temp = turnMaster;
+			do {
+				/* Evito pegar a carta do mestre da rodada para ter certeza de que ela
+				 * estará no topo da pilha. Deste modo, ela estará no fundo quando
+				 * eu transferir as cartas para o vencedor.
+				 */
+				if (deckGetHeight(temp->data.deck) > 0 && temp != turnMaster) {
+					deckPush(battleDeck, deckPop(temp->data.deck));
+				}
+				temp = temp->next;
+			} while(temp != turnMaster);
+			if (deckGetHeight(turnMaster->data.deck) > 0) {
+				deckPush(battleDeck, deckPop(turnMaster->data.deck));
 			}
-			temp = next;
-		} while(temp != playerList);
-
-		/* 8 If the winner player is the turn master, go back to step 1. */
-		if (roundWinner == turnMaster) continue;
-
-		/* 9 Otherwise, go to the next player */
-		turnMaster = turnMaster->next;
+			/* 6 Se houve um empate, volte para o começo do round. */
+			if (winner == NULL) continue;
+			/* 7 Caso o contrário, dê todas as cartas guardadas para o vencedor */
+			while (deckGetHeight(battleDeck) > 0) {
+				deckPush(turnMaster->data.deck, deckPop(battleDeck));
+			}
+			/* 8 Se o vencedor for o mestre da rodada, volte ao início do round. */
+			if (winner == turnMaster) continue;
+			/* 9 Caso o contrário, vá para o próximo jogador */
+			turnMaster = turnMaster->next;
+		} else {
+			/*Remover jogador sem cartas */
+			PlayerNode *temp = turnMaster;
+			turnMaster = turnMaster->next;
+			printf("%s não tem mais cartas e foi eliminado!\n", temp->data.name);
+			playerListRemove(&playerList, temp);
+		}
 	} while (playerList->next != playerList);
 
-	printf("\n%s WINS THE GAME with %d cards!\n", playerList->data.name, deckGetHeight(playerList->data.deck));
+	if (deckGetHeight(playerList->data.deck) != 0) {
+		printf("\n%s WINS THE GAME with %d cards!\n", playerList->data.name, deckGetHeight(playerList->data.deck));
+	} else {
+		printf("Todos os jogadores perderam seus territórios. Não houve vencedor.\nTal é a natureza da guerra.\n");
+	}
 	printf("Liberando memória...\n");
 	playerListFree(&playerList);
 
