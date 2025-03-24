@@ -7,7 +7,7 @@
 
 void gameSetupScreen(GameData *game)
 {
-	playerListFree(game->players);
+	playerListFree(&game->players);
 	erase();
 	refresh();
 	int menuWidth = 40;

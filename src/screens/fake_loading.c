@@ -34,7 +34,7 @@ void fakeLoadingScreen(void) {
 		"Adquirindo novos estados...",
 		"Apagando arquivos...",
 		"Na escuridao sombria do terceiro milenio, so ha guerra.",
-		"Sabotando linhas logísticas..."
+		"Sabotando linhas logisticas..."
 	};
 	int messages = sizeof(loadingMsg) / sizeof(loadingMsg[0]);
 	int chosenMsg = rand() % messages;

@@ -36,7 +36,7 @@ int main() {
 				creditsScreen(&game);
 				break;
 			case EXIT:
-				playerListFree(game.players);
+				playerListFree(&game.players);
 				break;
 		}
 	}
