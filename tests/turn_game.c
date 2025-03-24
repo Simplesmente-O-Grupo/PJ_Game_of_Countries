@@ -2,11 +2,11 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "include/player.h"
-#include "include/deck.h"
-#include "include/card.h"
-#include "include/player_list.h"
-#include "include/countries.h"
+#include "../src/include/player.h"
+#include "../src/include/deck.h"
+#include "../src/include/card.h"
+#include "../src/include/player_list.h"
+#include "../src/include/countries.h"
 
 // Função para exibir uma carta
 void displayCard(Card card)

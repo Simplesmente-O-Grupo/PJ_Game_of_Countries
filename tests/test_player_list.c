@@ -1,9 +1,9 @@
 #include <stdio.h>
 
-#include "../include/player.h"
-#include "../include/player_list.h"
-#include "../include/card.h"
-#include "../include/deck.h"
+#include "../src/include/player.h"
+#include "../src/include/player_list.h"
+#include "../src/include/card.h"
+#include "../src/include/deck.h"
 
 void printPlayerList(PlayerNode *head);
 void printCard(Card card);

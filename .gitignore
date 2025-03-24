@@ -3,3 +3,5 @@ game
 *.o
 .ccls-cache/
 docs/doxy_output/
+bin
+obj
