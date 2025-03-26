@@ -30,7 +30,9 @@ void gameSetupScreen(GameData *game)
 	{
 		mvprintw((LINES - 3)/2 + 3, (COLS - menuWidth)/2 + 1, "Jogador %d/%d", i + 1, playerQuantityField.value);
 		refresh();
-		focusStrField(&playerNameField);
+		do {
+			focusStrField(&playerNameField);
+		} while(!playerListNameIsUnique(game->players, playerNameField.value));
 		playerListInsert(&game->players, playerCreate(i, playerNameField.value));
 		playerNameField.value[0] = '\0';
 	}

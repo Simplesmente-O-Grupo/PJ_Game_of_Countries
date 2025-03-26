@@ -47,7 +47,6 @@ void drawStrField(StrField *field)
 
 	wmove(field->window, 1, 1);
 	wprintw(field->window,  "%s: ", field->label);
-	wprintw(field->window,  "%s", field->value);
 
 	wrefresh(field->window);
 }
@@ -58,10 +57,10 @@ void focusStrField(StrField *field) {
 	curs_set(1);
 	/* Mostra o que o usuário digitou */
 	echo();
-	while (strlen(field->value) <= 0) {
+	do {
 		wmove(field->window, 1, 1 + strlen(field->label) + 2);
 		wgetnstr(field->window, field->value, TEXT_FIELD_MAXLEN);
-	}
+	} while (strlen(field->value) <= 0);
 	/* Esconte o input do usuário */
 	noecho();
 	/* Esconde o cursor do terminal */
