@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include "../include/card.h"
-#include "../include/countries.h"
+#include "../src/include/card.h"
+#include "../src/include/countries.h"
 
 int main()
 {

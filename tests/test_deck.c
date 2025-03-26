@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include "../include/deck.h"
-#include "../include/card.h"
+#include "../src/include/deck.h"
+#include "../src/include/card.h"
 
 void printcard(Card *card)
 {

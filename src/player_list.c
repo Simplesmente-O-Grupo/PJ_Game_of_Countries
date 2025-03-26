@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <assert.h>
 
 #include "include/player.h"
 #include "include/player_list.h"
@@ -102,6 +104,7 @@ void playerListFree(PlayerNode **head)
 		free(current);
 		current = next;
 	} while (current != *head);
+	*head = NULL;
 }
 
 PlayerNode *playerListHighestAttribute(PlayerNode *head, CardAttribute attr) {
@@ -145,4 +148,17 @@ PlayerNode *playerListHighestAttribute(PlayerNode *head, CardAttribute attr) {
 		return NULL;
 	}
 	return winner;
+}
+
+int playerListNameIsUnique(PlayerNode *head, char *str) {
+	PlayerNode *temp = head;
+	/* Caso especial: Não há jogadores */
+	if (playerListIsEmpty(head)) return 1;
+	do {
+		if (strcmp(temp->data.name, str) == 0) {
+			return 0;
+		}
+		temp = temp->next;
+	} while(temp != head);
+	return 1;
 }

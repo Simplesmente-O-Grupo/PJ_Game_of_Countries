@@ -2,7 +2,7 @@
 #define PLAYER_H
 #include "deck.h"
 
-#define PLAYER_NAME_MAXLEN 50
+#define PLAYER_NAME_MAXLEN 25
 
 typedef struct Player
 {

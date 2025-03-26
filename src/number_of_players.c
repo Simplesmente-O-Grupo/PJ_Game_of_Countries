@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 #include "include/number_of_players.h"
 
 int define_number_of_players(int number_players)
