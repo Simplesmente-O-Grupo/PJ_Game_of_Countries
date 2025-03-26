@@ -31,9 +31,9 @@ void wprintListMenu(WINDOW * window, char *options[], int numOptions, int currOp
 	}
 }
 
-void createStrField(StrField *field, int height, int width, int y, int x, char *label)
+void createStrField(StrField *field, int width, int y, int x, char *label)
 {
-	field->window = newwin(height, width, y, x);
+	field->window = newwin(3, width, y, x);
 	keypad(field->window, TRUE);
 	strcpy(field->label, label);
 	field->labelLen = strlen(label);
@@ -46,43 +46,31 @@ void drawStrField(StrField *field)
 	box(field->window, 0, 0);
 
 	wmove(field->window, 1, 1);
-	wprintw(field->window,  "%s", field->label);
-	wprintw(field->window,  ": %s", field->value);
+	wprintw(field->window,  "%s: ", field->label);
+	wprintw(field->window,  "%s", field->value);
 
 	wrefresh(field->window);
 }
 
 void focusStrField(StrField *field) {
-	int key;
-	/* Guarda o índice do final do valor do campo de texto */
-	int valueEnd = 0;
-
-	/* Posiciona a variável no final do texto */
-	while (field->value[valueEnd] != '\0' && valueEnd < 50 - 1)
-	{
-		valueEnd++;
-	}
-
 	drawStrField(field);
-	do {
-		key = wgetch(field->window);
-		/* a entrada permite somente letras, números e espaços */
-		if ((isalnum(key) || isspace(key)) && valueEnd < 50 - 1)
-		{
-			field->value[valueEnd++] = key;
-			field->value[valueEnd] = '\0';
-		} 
-		/* apaca um caractere do valor do campo. */
-		else if ((key == KEY_BACKSPACE || key == '\b') && valueEnd > 0)
-		{
-			field->value[--valueEnd] = '\0';
-		}
-		drawStrField(field);
-	} while (key != '\n');
+	/* Habilita o cursor do terminal */
+	curs_set(1);
+	/* Mostra o que o usuário digitou */
+	echo();
+	while (strlen(field->value) <= 0) {
+		wmove(field->window, 1, 1 + strlen(field->label) + 2);
+		wgetnstr(field->window, field->value, TEXT_FIELD_MAXLEN);
+	}
+	/* Esconte o input do usuário */
+	noecho();
+	/* Esconde o cursor do terminal */
+	curs_set(0);
 }
-void createIntField(IntField *field, int height, int width, int y, int x, char *label, int maxValue, int minValue)
+
+void createIntField(IntField *field, int width, int y, int x, char *label, int maxValue, int minValue)
 {
-	field->window = newwin(height, width, y, x);
+	field->window = newwin(3, width, y, x);
 	keypad(field->window, TRUE);
 	strcpy(field->label, label);
 	field->labelLen = strlen(label);

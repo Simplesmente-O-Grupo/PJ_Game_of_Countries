@@ -11,11 +11,10 @@ void gameSetupScreen(GameData *game)
 	erase();
 	refresh();
 	int menuWidth = 40;
-	int menuHeight = 3;
 	
 	/* Etapa 1: Obter a quantidade de usuários */
 	IntField playerQuantityField;
-	createIntField(&playerQuantityField, menuHeight, menuWidth, (LINES - menuHeight)/2, (COLS - menuWidth)/2, "Quantidade de jogadores", 4, 2);
+	createIntField(&playerQuantityField, menuWidth, (LINES - 3)/2, (COLS - menuWidth)/2, "Quantidade de jogadores", 4, 2);
 	focusIntField(&playerQuantityField);
 
 	erase();
@@ -25,11 +24,11 @@ void gameSetupScreen(GameData *game)
 
 	/* Etapa 2: Obter nomes de usuário*/
 	StrField playerNameField;
-	createStrField(&playerNameField, menuHeight, menuWidth, (LINES - menuHeight)/2,(COLS - menuWidth)/2, "Nome do jogador");
+	createStrField(&playerNameField, menuWidth, (LINES - 3)/2,(COLS - menuWidth)/2, "Nome do jogador");
 
 	for (int i = 0; i < playerQuantityField.value; i++)
 	{
-		mvprintw((LINES - menuHeight)/2 + 3, (COLS - menuWidth)/2 + 1, "Jogador %d/%d", i + 1, playerQuantityField.value);
+		mvprintw((LINES - 3)/2 + 3, (COLS - menuWidth)/2 + 1, "Jogador %d/%d", i + 1, playerQuantityField.value);
 		refresh();
 		focusStrField(&playerNameField);
 		playerListInsert(&game->players, playerCreate(i, playerNameField.value));

@@ -53,11 +53,11 @@ typedef struct StrField {
 	/**
 	 * Texto de pergunta, impresso junto com o campo
 	 */
-	char label[50];
+	char label[LABEL_MAXLEN];
 	/**
 	 * Texto fornecido pelo usuário
 	 */
-	char value[50];
+	char value[TEXT_FIELD_MAXLEN];
 } StrField;
 
 
@@ -102,7 +102,7 @@ void wprintListMenu(WINDOW * window, char *options[], int numOptions, int currOp
  * @param x Coordenada x do campo
  * @param label Texto para ser exibido ao usuário
  */
-void createStrField(StrField *field, int height, int width, int y, int x, char *label);
+void createStrField(StrField *field, int width, int y, int x, char *label);
 
 /**
  * @brief desenha a janela de um campo de texto na tela
@@ -128,7 +128,7 @@ void focusStrField(StrField *field);
  * @param maxValue Valor máximo permitido pelo campo
  * @param maxValue Valor mínimo permitido pelo campo
  */
-void createIntField(IntField *field, int height, int width, int y, int x, char *label, int maxValue, int minValue);
+void createIntField(IntField *field, int width, int y, int x, char *label, int maxValue, int minValue);
 
 /**
  * @brief desenha a janela de um campo de texto na tela.
