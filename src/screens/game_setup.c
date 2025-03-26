@@ -15,7 +15,7 @@ void gameSetupScreen(GameData *game)
 	
 	/* Etapa 1: Obter a quantidade de usuários */
 	IntField playerQuantityField;
-	createIntField(&playerQuantityField, menuHeight, menuWidth, (LINES - menuHeight)/2, (COLS - menuWidth)/2, "Quantidade de jogadores", 4);
+	createIntField(&playerQuantityField, menuHeight, menuWidth, (LINES - menuHeight)/2, (COLS - menuWidth)/2, "Quantidade de jogadores", 4, 2);
 	focusIntField(&playerQuantityField);
 
 	erase();

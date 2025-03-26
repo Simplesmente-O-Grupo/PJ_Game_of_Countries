@@ -32,6 +32,10 @@ typedef struct IntField {
 	 * Valor máximo permitido pelo campo
 	 */
 	int maxValue;
+	/**
+	 * Valor mínimo permitido pelo campo
+	 */
+	int minValue;
 } IntField;
 
 /**
@@ -122,8 +126,9 @@ void focusStrField(StrField *field);
  * @param x Coordenada x do campo
  * @param label Texto para ser exibido ao usuário
  * @param maxValue Valor máximo permitido pelo campo
+ * @param maxValue Valor mínimo permitido pelo campo
  */
-void createIntField(IntField *field, int height, int width, int y, int x, char *label, int maxValue);
+void createIntField(IntField *field, int height, int width, int y, int x, char *label, int maxValue, int minValue);
 
 /**
  * @brief desenha a janela de um campo de texto na tela.
