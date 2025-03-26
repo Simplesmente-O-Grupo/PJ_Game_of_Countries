@@ -6,6 +6,7 @@
 #include "include/main_menu.h"
 #include "include/player_list.h"
 #include "include/credits.h"
+#include "include/game_screen.h"
 
 int main() {
 	initscr(); /* Inicializa a biblioteca curses */
@@ -30,7 +31,7 @@ int main() {
 				gameSetupScreen(&game);
 				break;
 			case IN_GAME:
-				/* Lógica de jogo aqui */
+				gameScreen(&game);
 				break;
 			case CREDITS_SCREEN:
 				creditsScreen(&game);

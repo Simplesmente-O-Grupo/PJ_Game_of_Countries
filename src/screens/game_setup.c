@@ -40,6 +40,16 @@ void gameSetupScreen(GameData *game)
 	delwin(playerNameField.window);
 	/*******************************************/
 
-	game->state = MAIN_MENU;
+	/* Etapa 3: Distribuir as cartas */
+	Card *cartas;
+	initializeCountryList(&cartas);
+	shuffle(cartas, GLOBAL_COUNTRIES_AMOUNT);
+	distributeCards(cartas, game->players);
+
+	game->maxCards = (GLOBAL_COUNTRIES_AMOUNT / playerQuantityField.value) * (playerQuantityField.value);
+	freeCountryList(&cartas);
+	/*******************************************/
+
+	game->state = IN_GAME;
 	fakeLoadingScreen();
 }

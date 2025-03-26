@@ -102,6 +102,7 @@ void playerListFree(PlayerNode **head)
 		free(current);
 		current = next;
 	} while (current != *head);
+	*head = NULL;
 }
 
 PlayerNode *playerListHighestAttribute(PlayerNode *head, CardAttribute attr) {

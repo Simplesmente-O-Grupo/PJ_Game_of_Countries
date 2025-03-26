@@ -36,5 +36,6 @@ typedef enum GameState {
 typedef struct GameData {
 	GameState state;
 	PlayerNode *players;
+	int maxCards;
 } GameData;
 #endif
