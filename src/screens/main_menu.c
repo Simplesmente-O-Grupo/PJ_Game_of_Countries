@@ -6,49 +6,10 @@
 #define LOGO_WIDTH 48
 #define LOGO_HEIGHT 4
 
-static void printLogo(int y, int x) {
-	mvprintw(y,   x, "  ____              _  __        __             ");
-	mvprintw(y+1, x, " / ___|__ _ _ __ __| | \\ \\      / /_ _ _ __ ___ ");
-	mvprintw(y+2, x, "| |   / _` | '__/ _` |  \\ \\ /\\ / / _` | '__/ __|");
-	mvprintw(y+3, x, "| |__| (_| | | | (_| |   \\ V  V / (_| | |  \\__ \\");
-	mvprintw(y+4, x, " \\____\\__,_|_|  \\__,_|    \\_/\\_/ \\__,_|_|  |___/");
-}
+static void printLogo(int y, int x);
+static void printHelicopter(int y, int x);
+static void printTank(int y, int x, int invert);
 
-static void printHelicopter(int y, int x) {
-	mvprintw(y, x, "--------------------------------------");
-	mvprintw(y+1, x, "                  ||                  ");
-	mvprintw(y+2, x, "               --/__\\--               ");
-	mvprintw(y+3, x, "              |o/    \\o|              ");
-	mvprintw(y+4, x, "               -|----|-               ");
-	mvprintw(y+5, x, "          o-----|    |-----o          ");
-	mvprintw(y+6, x, "            O O  ----  O O            ");
-	mvprintw(y+7, x, "                /    \\                ");
-}
-static void printTank(int y, int x, int invert) {
-	if (!invert) {
-		mvprintw(y, x, "   [ O ]");
-		mvprintw(y+1, x, "     \\ \\     ");
-		mvprintw(y+2, x, "      \\ \\  ");
-		mvprintw(y+3, x, "       \\ \\-------_");
-		mvprintw(y+4, x, "       /\\ \\   / ~~\\_");
-		mvprintw(y+5, x, " ./---/__|=/_/------//~~~\\");
-		mvprintw(y+6, x, "/___________________/O   O \\");
-		mvprintw(y+7, x, "(===(\\_________(===(Oo o o O)         ");
-		mvprintw(y+8, x, " \\~~~\\____/     \\---\\Oo__o--");
-		mvprintw(y+9, x, "   ~~~~~~~       ~~~~~~~~~~");
-	} else {
-		mvprintw(y, x, "                     [ O ]   ");
-		mvprintw(y+1, x, "                     / /     ");
-		mvprintw(y+2, x, "                    / /      ");
-		mvprintw(y+3, x, "           _-------/ /       ");
-		mvprintw(y+4, x, "         _/~~ \\   / /\\       ");
-		mvprintw(y+5, x, "   /~~~\\\\------\\_\\=|__\\---\\. ");
-		mvprintw(y+6, x, " / O   O\\___________________\\");
-		mvprintw(y+7, x, "(O o o oO)===)_________/)===)");
-		mvprintw(y+8, x, "  --o__oO/---/     \\____/~~~/");
-		mvprintw(y+9, x, "   ~~~~~~~~~~       ~~~~~~~  ");
-	}
-}
 void mainMenuScreen(GameData *game) {
 	/* Opções definidas no requisito RFGUI02 */
 	char *options[] = {
@@ -130,4 +91,48 @@ void mainMenuScreen(GameData *game) {
 
 	/* Libera memória alocada pela janela de menu */
 	delwin(menu);
+}
+
+static void printLogo(int y, int x) {
+	mvprintw(y,   x, "  ____              _  __        __             ");
+	mvprintw(y+1, x, " / ___|__ _ _ __ __| | \\ \\      / /_ _ _ __ ___ ");
+	mvprintw(y+2, x, "| |   / _` | '__/ _` |  \\ \\ /\\ / / _` | '__/ __|");
+	mvprintw(y+3, x, "| |__| (_| | | | (_| |   \\ V  V / (_| | |  \\__ \\");
+	mvprintw(y+4, x, " \\____\\__,_|_|  \\__,_|    \\_/\\_/ \\__,_|_|  |___/");
+}
+
+static void printHelicopter(int y, int x) {
+	mvprintw(y, x, "--------------------------------------");
+	mvprintw(y+1, x, "                  ||                  ");
+	mvprintw(y+2, x, "               --/__\\--               ");
+	mvprintw(y+3, x, "              |o/    \\o|              ");
+	mvprintw(y+4, x, "               -|----|-               ");
+	mvprintw(y+5, x, "          o-----|    |-----o          ");
+	mvprintw(y+6, x, "            O O  ----  O O            ");
+	mvprintw(y+7, x, "                /    \\                ");
+}
+static void printTank(int y, int x, int invert) {
+	if (!invert) {
+		mvprintw(y, x, "   [ O ]");
+		mvprintw(y+1, x, "     \\ \\     ");
+		mvprintw(y+2, x, "      \\ \\  ");
+		mvprintw(y+3, x, "       \\ \\-------_");
+		mvprintw(y+4, x, "       /\\ \\   / ~~\\_");
+		mvprintw(y+5, x, " ./---/__|=/_/------//~~~\\");
+		mvprintw(y+6, x, "/___________________/O   O \\");
+		mvprintw(y+7, x, "(===(\\_________(===(Oo o o O)         ");
+		mvprintw(y+8, x, " \\~~~\\____/     \\---\\Oo__o--");
+		mvprintw(y+9, x, "   ~~~~~~~       ~~~~~~~~~~");
+	} else {
+		mvprintw(y, x, "                     [ O ]   ");
+		mvprintw(y+1, x, "                     / /     ");
+		mvprintw(y+2, x, "                    / /      ");
+		mvprintw(y+3, x, "           _-------/ /       ");
+		mvprintw(y+4, x, "         _/~~ \\   / /\\       ");
+		mvprintw(y+5, x, "   /~~~\\\\------\\_\\=|__\\---\\. ");
+		mvprintw(y+6, x, " / O   O\\___________________\\");
+		mvprintw(y+7, x, "(O o o oO)===)_________/)===)");
+		mvprintw(y+8, x, "  --o__oO/---/     \\____/~~~/");
+		mvprintw(y+9, x, "   ~~~~~~~~~~       ~~~~~~~  ");
+	}
 }

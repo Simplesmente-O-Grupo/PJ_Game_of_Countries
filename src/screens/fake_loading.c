@@ -3,23 +3,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-static void printTank(int y, int x) {
-	mvprintw(y, x, "      '\\                ");
-	mvprintw(y+1, x, "       _\\______         ");
-	mvprintw(y+2, x, "      /        \\========");
-	mvprintw(y+3, x, " ____|__________\\_____  ");
-	mvprintw(y+4, x, "/ ___________________ \\ ");
-	mvprintw(y+5, x, "\\/ _===============_ \\/ ");
-	mvprintw(y+6, x, "  \"-===============-\"   ");
-}
-
-static void printHelicopter(int y, int x) {
-	mvprintw(y, x, "      (--------v--------)");
-	mvprintw(y+1, x, "__        __ __|__       ");
-	mvprintw(y+2, x, "(@)______(::(    |@\\_    ");
-	mvprintw(y+3, x, " `-------\\___________)   ");
-	mvprintw(y+4, x, "         __|___|___,     ");
-}
+static void printTank(int y, int x);
+static void printHelicopter(int y, int x);
 
 /* Função para mostrar uma tela de carregamento falso.
 * Esta função é desnecessária e desperdiça tempo, mas
@@ -59,3 +44,23 @@ void fakeLoadingScreen(void) {
 	}
 	timeout(-1);
 }
+
+static void printTank(int y, int x) {
+	mvprintw(y, x, "      '\\                ");
+	mvprintw(y+1, x, "       _\\______         ");
+	mvprintw(y+2, x, "      /        \\========");
+	mvprintw(y+3, x, " ____|__________\\_____  ");
+	mvprintw(y+4, x, "/ ___________________ \\ ");
+	mvprintw(y+5, x, "\\/ _===============_ \\/ ");
+	mvprintw(y+6, x, "  \"-===============-\"   ");
+}
+
+static void printHelicopter(int y, int x) {
+	mvprintw(y, x, "      (--------v--------)");
+	mvprintw(y+1, x, "__        __ __|__       ");
+	mvprintw(y+2, x, "(@)______(::(    |@\\_    ");
+	mvprintw(y+3, x, " `-------\\___________)   ");
+	mvprintw(y+4, x, "         __|___|___,     ");
+}
+
+

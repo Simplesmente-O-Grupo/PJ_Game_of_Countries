@@ -2,14 +2,7 @@
 #include <string.h>
 #include "../include/game_data.h"
 
-static void printCredits(char *lines[], int linesAmount, int y)
-{
-	for(int i = 0; i < linesAmount; i++)
-	{
-		int lineLen = strlen(lines[i]);
-		mvprintw(y + i, (COLS - lineLen)/2, "%s", lines[i]);
-	}
-}
+static void printCredits(char *lines[], int linesAmount, int y);
 void creditsScreen(GameData *game)
 {
 	char *lines[] = {
@@ -78,4 +71,13 @@ void creditsScreen(GameData *game)
 
 	game->state = MAIN_MENU;
 	timeout(-1);
+}
+
+static void printCredits(char *lines[], int linesAmount, int y)
+{
+	for(int i = 0; i < linesAmount; i++)
+	{
+		int lineLen = strlen(lines[i]);
+		mvprintw(y + i, (COLS - lineLen)/2, "%s", lines[i]);
+	}
 }
