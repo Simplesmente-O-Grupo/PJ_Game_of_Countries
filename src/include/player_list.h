@@ -1,5 +1,7 @@
 #ifndef PLAYER_LIST_H
 #define PLAYER_LIST_H
+#include <stdbool.h>
+
 #include "player.h"
 
 #define MAX_PLAYERS 4
@@ -20,12 +22,12 @@ typedef struct PlayerNode
 	struct PlayerNode *next;
 } PlayerNode;
 
-int playerListIsEmpty(PlayerNode *head);
+bool playerListIsEmpty(PlayerNode *head);
 int playerListLen(PlayerNode *head);
-int playerListInsert(PlayerNode **head, Player player);
+bool playerListInsert(PlayerNode **head, Player player);
 void playerListFree(PlayerNode **head);
 void playerListRemove(PlayerNode **head, PlayerNode *target);
 PlayerNode *playerListHighestAttribute(PlayerNode *head, CardAttribute attr);
-int playerListNameIsUnique(PlayerNode *head, char *str);
+bool playerListNameIsUnique(PlayerNode *head, char *str);
 
 #endif

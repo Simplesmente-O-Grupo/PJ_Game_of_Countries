@@ -1,5 +1,7 @@
 #ifndef DECK_H
 #define DECK_H
+#include <stdbool.h>
+
 #include "card.h"
 
 /**
@@ -31,14 +33,14 @@ Deck *deckInitialize(int size);
  * @return Verdadeiro para se o baralho estiver cheio
  */
 
-int deckIsFull(Deck *deck);
+bool deckIsFull(Deck *deck);
 /**
  * @brief Verifica se a pilha está vazia
  *
  * @param deck Ponteiro para um baralho
  * @return Verdadeiro se a pilha estiver vazia
  */
-int deckIsEmpty(Deck *deck);
+bool deckIsEmpty(Deck *deck);
 
 /**
  * @brief Insere uma carta no topo do baralho
@@ -49,7 +51,7 @@ int deckIsEmpty(Deck *deck);
  * @return verdadeiro se a carta foi inserida
  * @see createCard
  */
-int deckPush(Deck *deck, Card card);
+bool deckPush(Deck *deck, Card card);
 
 /**
  * @brief Remove a carta no topo do baralho
@@ -73,7 +75,6 @@ Card deckPeek(Deck *deck);
  * @param deck Ponteiro para o baralho
  * @return quantidade de cartas no baralho
  */
-
 int deckGetHeight(Deck *deck);
 
 /**

@@ -2,11 +2,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <stdbool.h>
 
 #include "include/player.h"
 #include "include/player_list.h"
 
-int playerListIsEmpty(PlayerNode *head)
+bool playerListIsEmpty(PlayerNode *head)
 {
 	return head == NULL;
 }
@@ -22,12 +23,12 @@ int playerListLen(PlayerNode *head)
 	return acc;
 }
 
-int playerListInsert(PlayerNode **head, Player player)
+bool playerListInsert(PlayerNode **head, Player player)
 {
 	PlayerNode *tail = malloc(sizeof(PlayerNode));
 	if (tail == NULL)
 	{
-		return 0;
+		return false;
 	}
 
 	tail->data = player;
@@ -37,7 +38,7 @@ int playerListInsert(PlayerNode **head, Player player)
 	{
 		*head = tail;
 		(*head)->next = *head;
-		return 1;
+		return true;
 	}
 
 	/* Caso genérico */
@@ -49,7 +50,7 @@ int playerListInsert(PlayerNode **head, Player player)
 	i->next = tail;
 	tail->next = *head;
 
-	return 1;
+	return true;
 }
 
 void playerListRemove(PlayerNode **head, PlayerNode *target) {
@@ -139,7 +140,7 @@ PlayerNode *playerListHighestAttribute(PlayerNode *head, CardAttribute attr) {
 				tie = 1;
 			}
 			/* temp debug */
-			printf("%s: %s - %d\n", temp->data.name, deckPeek(temp->data.deck).name, currAttrValue);
+			//printf("%s: %s - %d\n", temp->data.name, deckPeek(temp->data.deck).name, currAttrValue);
 		}
 		temp = temp->next;
 	} while(temp != head);
@@ -150,15 +151,15 @@ PlayerNode *playerListHighestAttribute(PlayerNode *head, CardAttribute attr) {
 	return winner;
 }
 
-int playerListNameIsUnique(PlayerNode *head, char *str) {
+bool playerListNameIsUnique(PlayerNode *head, char *str) {
 	PlayerNode *temp = head;
 	/* Caso especial: Não há jogadores */
-	if (playerListIsEmpty(head)) return 1;
+	if (playerListIsEmpty(head)) return true;
 	do {
 		if (strcmp(temp->data.name, str) == 0) {
-			return 0;
+			return false;
 		}
 		temp = temp->next;
 	} while(temp != head);
-	return 1;
+	return true;
 }
