@@ -1,4 +1,5 @@
 #include <curses.h>
+#include <stdbool.h>
 
 #include "../include/game_data.h"
 #include "../include/ui_utils.h"
@@ -8,7 +9,7 @@
 
 static void printLogo(int y, int x);
 static void printHelicopter(int y, int x);
-static void printTank(int y, int x, int invert);
+static void printTank(int y, int x, bool invert);
 
 void mainMenuScreen(GameData *game) {
 	/* Opções definidas no requisito RFGUI02 */
@@ -44,8 +45,8 @@ void mainMenuScreen(GameData *game) {
 	erase();
 	printHelicopter(3, (COLS - 38) / 2);
 	printLogo((LINES/2) - LOGO_HEIGHT *  2, (COLS/2) - (LOGO_WIDTH / 2));
-	printTank((LINES) / 2, (COLS) / 2 + menuWidth, 0);
-	printTank((LINES) / 2, (COLS) / 2 - (menuWidth + 29), 1);
+	printTank((LINES) / 2, (COLS) / 2 + menuWidth, false);
+	printTank((LINES) / 2, (COLS) / 2 - (menuWidth + 29), true);
 
 	wprintListMenu(menu, options, numOptions, option);
 	refresh();
@@ -111,7 +112,7 @@ static void printHelicopter(int y, int x) {
 	mvprintw(y+6, x, "            O O  ----  O O            ");
 	mvprintw(y+7, x, "                /    \\                ");
 }
-static void printTank(int y, int x, int invert) {
+static void printTank(int y, int x, bool invert) {
 	if (!invert) {
 		mvprintw(y, x, "   [ O ]");
 		mvprintw(y+1, x, "     \\ \\     ");

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "include/deck.h"
 #include "include/card.h"
@@ -38,25 +39,25 @@ Deck *deckInitialize(int size)
 	return deck;
 }
 
-int deckIsFull(Deck *deck)
+bool deckIsFull(Deck *deck)
 {
 	return deck->top == deck->size - 1;
 }
 
-int deckIsEmpty(Deck *deck)
+bool deckIsEmpty(Deck *deck)
 {
 	return deck->top == -1;
 }
 
-int deckPush(Deck *deck, Card card)
+bool deckPush(Deck *deck, Card card)
 {
 	if (deckIsFull(deck))
 	{
-		return 0;
+		return false;
 	}
 
 	deck->cards[++deck->top] = card;
-	return 1;
+	return true;
 }
 
 /*
