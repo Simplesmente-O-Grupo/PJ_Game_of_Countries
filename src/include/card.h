@@ -11,21 +11,32 @@
 #define CARD_MAX_NAME_LEN 30
 #define CARD_MAX_CATEGORY_LEN 30
 
-typedef enum CardAttribute {
-	DEFENCE,
-	ARMY,
-	NAVY,
-	AIRFORCE
+/*
+► struct enum define constantes enumeradas
+► Por padrão o compilador irá interpretar:
+DEFENCE  = 0
+ARMY     = 1
+NAVY     = 2
+AIRFORCE = 3
+ */
+
+typedef enum CardAttribute
+{
+    DEFENCE,
+    ARMY,
+    NAVY,
+    AIRFORCE
 } CardAttribute;
 
-typedef struct Card {
-    int id;            // card identification
-    char name[CARD_MAX_NAME_LEN];     // card name of the country
+typedef struct Card
+{
+    int id;                               // card identification
+    char name[CARD_MAX_NAME_LEN];         // card name of the country
     char category[CARD_MAX_CATEGORY_LEN]; // card category, such as country's Continent
-    int defence;       // defence card attribute
-    int army;          // army card attribute
-    int navy;          // navy card attribute
-    int airforce;      // airforce card attribute
+    int defence;                          // defence card attribute
+    int army;                             // army card attribute
+    int navy;                             // navy card attribute
+    int airforce;                         // airforce card attribute
 } Card;
 
 /**
@@ -39,7 +50,7 @@ typedef struct Card {
  * @param navy Valor de marinha do país
  * @param airforce Valor da força aérea do país
  * @return Uma estrutura de carta
-*/
+ */
 Card createCard(int id, char *name, char *category, int defence, int army, int navy, int airforce);
 
 int cardGetAttribute(Card card, CardAttribute attr);
