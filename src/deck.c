@@ -21,7 +21,7 @@ bugs difíceis de detectar.
 /* Cria um deck de tamanho arbritrário */
 Deck *deckInitialize(int size)
 {
-	/* ► Aloca dinâmicamente memória para o Deck*/
+	/* ► Aloca dinamicamente memória para o Deck*/
 	Deck *deck = malloc(sizeof(Deck));
 	if (deck == NULL)
 	{
@@ -35,7 +35,7 @@ Deck *deckInitialize(int size)
 	deck->top = -1;
 	deck->size = size;
 
-	/* ► Aloca dinâmicamente memória para uma carta.*/
+	/* ► Aloca dinamicamente memória para uma carta.*/
 	Card *cards = malloc(sizeof(Card) * size);
 
 	if (cards == NULL)
@@ -83,7 +83,7 @@ bool deckPush(Deck *deck, Card card)
 }
 
 /*
-► Retornar o topo do deck:
+► Retornar a quantidade de cartas do deck:
 Top + 1 pois o deck foi iniciado com o valor -1.
 */
 int deckGetHeight(Deck *deck)
