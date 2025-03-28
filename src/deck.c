@@ -7,14 +7,21 @@
 #include "include/card.h"
 
 /*
-Aqui, deck é um ponteiro para Deck (Deck *), e o operador sizeof(deck) retorna o tamanho de um ponteiro, não da estrutura Deck. Em um sistema de 64 bits, por exemplo, sizeof(deck) pode ser 8 bytes (tamanho de um ponteiro), enquanto sizeof(Deck) pode ser muito maior (dependendo dos campos da struct).
-
-Isso significa que a alocação pode estar reservando menos memória do que o necessário, o que pode levar a comportamento indefinido e bugs difíceis de detectar.
+ ► Aqui, deck é um ponteiro para Deck (Deck *).
+ ► O operador sizeof(deck) retorna o tamanho de um ponteiro, não da estrutura Deck.
+ Em um sistema de 64 bits, por exemplo, sizeof(deck) pode ser 8 bytes
+ (tamanho de um ponteiro), enquanto sizeof(Deck)
+ pode ser muito maior (dependendo dos campos da struct).
+► Isso significa que a alocação pode estar reservando
+menos memória do que o necessário,
+o que pode levar a comportamento indefinido e
+bugs difíceis de detectar.
 */
 
-/* Cria um baralho de tamanho arbritrário */
+/* Cria um deck de tamanho arbritrário */
 Deck *deckInitialize(int size)
 {
+	/* ► Aloca dinâmicamente memória para o Deck*/
 	Deck *deck = malloc(sizeof(Deck));
 	if (deck == NULL)
 	{
@@ -22,9 +29,13 @@ Deck *deckInitialize(int size)
 		return NULL;
 	}
 
+	/* ► Indicando que o deck inicia vazio,
+	 ► Definindo o tamanho máximo do deck.
+	*/
 	deck->top = -1;
 	deck->size = size;
 
+	/* ► Aloca dinâmicamente memória para uma carta.*/
 	Card *cards = malloc(sizeof(Card) * size);
 
 	if (cards == NULL)
@@ -34,21 +45,32 @@ Deck *deckInitialize(int size)
 		return NULL;
 	}
 
+	/* ► Atribui a carta ao deck.
+	   ► retorna o deck.
+	*/
 	deck->cards = cards;
 
 	return deck;
 }
 
+/* ► Checagem booleana para deck full:
+Retornando 1 se o topo do deck é igual ao tamanho máximo.*/
 bool deckIsFull(Deck *deck)
 {
 	return deck->top == deck->size - 1;
 }
 
+/* ► Checagem booleana para deck vazio:
+Retornando 1 se o topo do deck é igual a uma posição antes da primeira.*/
 bool deckIsEmpty(Deck *deck)
 {
 	return deck->top == -1;
 }
 
+/* ► Adicionar uma carta ao deck:
+Checando se deck está full.
+Incrementa top antes de adicionar uma carta.
+Retornando true se bem sucedido.*/
 bool deckPush(Deck *deck, Card card)
 {
 	if (deckIsFull(deck))
@@ -61,17 +83,18 @@ bool deckPush(Deck *deck, Card card)
 }
 
 /*
-	- Important function to inform each player to update his number of cards
-	in each turn. Good to increase the competition.
+► Retornar o topo do deck:
+Top + 1 pois o deck foi iniciado com o valor -1.
 */
-
 int deckGetHeight(Deck *deck)
 {
 	return deck->top + 1;
 }
 
-/* É esperado que se verifique se
- * o baralho está vazio antes de chamar a função
+/*
+► Retirar uma carta do topo:
+Verifica se o deck está vazio antes de retirar.
+Primeiro retorna a carta do topo e depois decrementa o índice.
  */
 Card deckPop(Deck *deck)
 {
@@ -80,6 +103,10 @@ Card deckPop(Deck *deck)
 	return deck->cards[deck->top--];
 }
 
+/*
+► Verifica se o deck está vazio.
+► Retorna a carta do topo sem removê-la.
+*/
 Card deckPeek(Deck *deck)
 {
 	assert(!deckIsEmpty(deck));
@@ -87,6 +114,10 @@ Card deckPeek(Deck *deck)
 	return deck->cards[deck->top];
 }
 
+/*
+► Libera a memória para o deck e as cartas.
+► Evita vazamento de memória ao liberar deck->cards antes de deck.
+*/
 void deckFree(Deck *deck)
 {
 	free(deck->cards);
