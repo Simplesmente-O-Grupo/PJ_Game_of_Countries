@@ -10,7 +10,7 @@
 
 int main() {
 	initscr(); /* Inicializa a biblioteca curses */
-	noecho();
+	noecho();  /* Não exibe os caracteres digitados pelo usuário */
 	curs_set(0); /* Esconde o cursor do terminal */
 	keypad(stdscr, TRUE); /* Habilita teclas de funções, como as setas do teclado */
 
@@ -23,6 +23,7 @@ int main() {
 	while (game.state != EXIT) {
 		/* Apaga conteúdo da tela */
 		clear();
+		/* Atualiza o conteúdo da tela */
 		switch(game.state) {
 			case MAIN_MENU:
 				mainMenuScreen(&game);
