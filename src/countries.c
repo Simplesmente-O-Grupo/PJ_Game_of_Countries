@@ -6,6 +6,10 @@
 #include "include/player_list.h"
 #include "include/card.h"
 
+/*cria uma lista de cartas representando países
+Reserva espaço na memória para armazenar todas as cartas
+Verifica se a memória foi alocada com sucesso.
+Preenche a lista com cartas de países pré-definidos (Brasil, Alemanha, China, etc.)*/
 int initializeCountryList(Card **cards)
 {
 	*cards = malloc(sizeof(Card) * GLOBAL_COUNTRIES_AMOUNT);
@@ -119,7 +123,7 @@ void printCardsValue(Card *cards)
 		printf("*************************************************\n");
 	}
 }
-
+/*Embaralha as cartas de maneira aleatória.*/
 void shuffle(Card *cards, int size)
 {
 	srand(time(NULL)); // Inicializa a semente do gerador de números aleatórios
@@ -128,30 +132,32 @@ void shuffle(Card *cards, int size)
 	{
 		int j = rand() % (i + 1); // Gera um índice aleatório entre 0 e 1
 
-		// Replace cards[i] with cards[j]
+		// substitui cartas[i] por cartas[j]
 		Card temp = cards[i];
 		cards[i] = cards[j];
 		cards[j] = temp;
 	}
 }
 
-// Pass pointer to pointer to set it to NULL
+// Passa de ponteiro em ponteiro para defini-lo como NULL
 void freeCountryList(Card **cards)
 {
 	if (*cards != NULL)
 	{
 		free(*cards);
-		*cards = NULL; // Set the pointer to NULL after freeing
+		*cards = NULL; // Defina o ponteiro para NULL após liberar a memória
 	}
 }
-
+/*Distribui igualmente as cartas para os jogadores*/
 int distributeCards(Card *cards, PlayerNode *head)
 {
+	/*calcula a quantidade de cartas para cada jogador 
+	com base no total de cartas*/
 	int playerCount = playerListLen(head);
 	int cardsPerPlayer = GLOBAL_COUNTRIES_AMOUNT / playerCount;
 	int maxCardIndex = cardsPerPlayer * playerCount;
 	int acc = 0;
-
+/*Adiciona as cartas no deck de cada jogador*/
 	PlayerNode *temp = head;
 	while (acc < maxCardIndex) {
 		if (!deckPush(temp->data.deck, cards[acc++]))

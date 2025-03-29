@@ -6,23 +6,25 @@
 
 #include "include/player.h"
 #include "include/player_list.h"
-
+/*verifica se a lista de jogadores está vazia*/
 bool playerListIsEmpty(PlayerNode *head)
 {
 	return head == NULL;
 }
-
+/*Calcula o número de jogadores na lista.*/
 int playerListLen(PlayerNode *head)
 {
+	/*percorre a lista circularmente com um ponteiro temporário
+	somando 1 a cada nó até voltar ao início da lista*/
 	int acc = 0;
 	PlayerNode *temp = head;
 	do {
 		acc++;
 		temp = temp->next;
 	} while (temp != head);
-	return acc;
+	return acc; //retorna o número de jogadores
 }
-
+/*insere um jogador na lista circular*/
 bool playerListInsert(PlayerNode **head, Player player)
 {
 	PlayerNode *tail = malloc(sizeof(PlayerNode));
@@ -30,13 +32,11 @@ bool playerListInsert(PlayerNode **head, Player player)
 	{
 		return false;
 	}
-
 	tail->data = player;
-
 	/* Caso especial: a lista está vazia */
 	if (playerListIsEmpty(*head))
 	{
-		*head = tail;
+		*head = tail; //O novo nó se torna o primeiro e aponta para si mesmo
 		(*head)->next = *head;
 		return true;
 	}
@@ -80,7 +80,8 @@ void playerListRemove(PlayerNode **head, PlayerNode *target) {
 		return;
 	}
 
-	/* Caso genérico */
+	/* Caso genérico,
+	novo nó é inserido após o último nó e mantém a circularidade*/
 	PlayerNode *prev;
 	while (temp->next != *head) {
 		prev = temp;
@@ -92,30 +93,33 @@ void playerListRemove(PlayerNode **head, PlayerNode *target) {
 		}
 	}
 }
-
+/*libera a memória*/
 void playerListFree(PlayerNode **head)
 {
+	/*verifica se a lista está vazia*/
 	if (playerListIsEmpty(*head)) return;
 
 	PlayerNode *current = *head;
 	PlayerNode *next;
 	do {
 		next = current->next;
-		playerDestroy(&current->data);
+		playerDestroy(&current->data);//libera a memória do jogador
 		free(current);
 		current = next;
 	} while (current != *head);
 	*head = NULL;
 }
-
+/*identifica o maior atributod as cartas do jogador*/
 PlayerNode *playerListHighestAttribute(PlayerNode *head, CardAttribute attr) {
 	PlayerNode *temp = head;
 	PlayerNode *winner;
 	int tie = 0;
 	int highestAttrValue = 0;
 	do {
+		/*verifica se os jogadores tem cartas*/
 		if (deckGetHeight(temp->data.deck) > 0) {
 			int currAttrValue;
+			/*verifica qual atributo é o maior da carta selecionada*/
 			Card currCard = deckPeek(temp->data.deck);
 			switch(attr) {
 				case ARMY:
@@ -131,9 +135,11 @@ PlayerNode *playerListHighestAttribute(PlayerNode *head, CardAttribute attr) {
 					currAttrValue = currCard.airforce;
 					break;
 			}
+			/*verifica qual tem o maior atributo*/
 			if (highestAttrValue < currAttrValue) {
 				highestAttrValue = currAttrValue;
 				tie = 0;
+				/* Atualiza o vencedor */
 				winner = temp;
 			} else if (highestAttrValue == currAttrValue) {
 				/* Empate, não há vencedores */
@@ -150,7 +156,7 @@ PlayerNode *playerListHighestAttribute(PlayerNode *head, CardAttribute attr) {
 	}
 	return winner;
 }
-
+/*verifica se o nome do jogador é único*/
 bool playerListNameIsUnique(PlayerNode *head, char *str) {
 	PlayerNode *temp = head;
 	/* Caso especial: Não há jogadores */
