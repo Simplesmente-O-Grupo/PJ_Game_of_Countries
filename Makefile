@@ -3,11 +3,6 @@ CFLAGS=-g -Wall -Werror
 
 LINKER_FLAGS=-Iinclude -Llib -lpdcurses
 
-ifeq ($(OS), WINDOWS_NT)
-else
-	LINKER_FLAGS=-lcurses
-endif
-
 SRC_DIR = src
 OBJ_DIR = obj
 
