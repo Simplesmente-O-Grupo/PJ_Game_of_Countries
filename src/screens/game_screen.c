@@ -19,6 +19,7 @@ static WINDOW *createHUD(void) {
 	WINDOW *hud = newwin(4, PLAYER_NAME_MAXLEN + 11, 0, 0);
 	return hud;
 }
+/*janela para exibir a lista de jogadores*/
 static WINDOW *createPlayerListWindow(void) {
 	const int listHeight = (LINES * 80) / 100;
 	const int listWidth = PLAYER_NAME_MAXLEN + 12;
