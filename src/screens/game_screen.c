@@ -26,6 +26,7 @@ static WINDOW *createPlayerListWindow(void) {
 	WINDOW *list = newwin(listHeight, listWidth, 0, (COLS - listWidth));
 	return list;
 }
+/*janela para exibir a carta do jogador*/
 static WINDOW *createCardWindow(void) {
 	const int cardWidth = 35;
 	const int cardHeight = 16;
