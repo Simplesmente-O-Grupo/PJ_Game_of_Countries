@@ -1,10 +1,11 @@
 CC=gcc
 CFLAGS=-g -Wall -Werror
 
+LINUX=false
+
 LINKER_FLAGS=-Iinclude -Llib -lpdcurses
 
-ifeq ($(OS), WINDOWS_NT)
-else
+ifeq ($(LINUX), true)
 	LINKER_FLAGS=-lcurses
 endif
 
