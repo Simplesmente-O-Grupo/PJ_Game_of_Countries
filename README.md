@@ -11,7 +11,8 @@ Você precisará dos seguintes programas:
 + Instalar a biblioteca PDCurses no projeto
 
 ##### Instalando a biblioteca PDCurses:
-Na raiz do diretório do projeto, crie duas pastas, uma com o nome de `include` e outra com o nome de `lib`
+Na raiz do diretório do projeto, crie duas pastas, uma com o nome de `include` e outra com o nome de `lib`.
+
 Vá para o [site oficial do PDCUrses](https://pdcurses.org/) e baixe a versão estável.
 
 Extraia a versão estável em algum lugar e copie os arquivos `curses.h`, `curspriv.h` e `panel.h` para a pasta `include` criada anteriormente.
