@@ -19,12 +19,14 @@ static WINDOW *createHUD(void) {
 	WINDOW *hud = newwin(4, PLAYER_NAME_MAXLEN + 11, 0, 0);
 	return hud;
 }
+/*janela para exibir a lista de jogadores*/
 static WINDOW *createPlayerListWindow(void) {
 	const int listHeight = (LINES * 80) / 100;
 	const int listWidth = PLAYER_NAME_MAXLEN + 12;
 	WINDOW *list = newwin(listHeight, listWidth, 0, (COLS - listWidth));
 	return list;
 }
+/*janela para exibir a carta do jogador*/
 static WINDOW *createCardWindow(void) {
 	const int cardWidth = 35;
 	const int cardHeight = 16;
